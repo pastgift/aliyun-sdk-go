@@ -10,7 +10,7 @@ import (
 )
 
 func CreateTimestampString(layout string) (string) {
-    tmsp_str := time.Now().Format(layout)
+    tmsp_str := time.Now().UTC().Format(layout)
 
     return tmsp_str
 }
