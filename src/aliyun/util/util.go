@@ -34,3 +34,11 @@ func ComputeSignature(string_to_signature string, accesskey_secret string) (sign
 
     return sign_base64
 }
+
+func SignReplace(string s) string {
+    s = strings.Replace(q, "+", "%20", -1)
+    s = strings.Replace(q, "*", "%2A", -1)
+    s = strings.Replace(q, "%7E", "~", -1)
+
+    return s
+}

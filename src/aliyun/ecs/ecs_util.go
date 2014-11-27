@@ -8,6 +8,7 @@ import (
     "net/http"
     "net/url"
     "io/ioutil"
+    "strings"
 
     "aliyun/util"
 )
@@ -72,11 +73,16 @@ func (self *ECSClient) setAction(action string) {
 }
 
 func (self *ECSClient) getStringToSign() (string_to_sign string) {
-    s := "GET" + "&" +
-        url.QueryEscape("/") + "&" +
-        url.QueryEscape(self.APIQuery.Encode())
+    q := self.APIQuery.Encode()
+    q = util.SignReplace(q)
 
-    return s
+    q = url.QueryEscape(q)
+    q = util.SignReplace(q)
+
+    // string_to_sign = 
+    //    "GET" + "&" + 
+    //    url.QueryEscape("/") + "&" + q
+    return "GET&%2F&" + q
 }
 
 func (self *ECSClient) completeSignature() {
