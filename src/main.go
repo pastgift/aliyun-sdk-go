@@ -11,6 +11,7 @@ import (
 func main() {
     fmt.Println("----- Test Start -----")
 
+    // Get AccessKeyId and AccessKeySecret
     f, err := ioutil.ReadFile("src/_key.txt")
     if err != nil {
         fmt.Println("Can't open `_key.txt`")
@@ -25,6 +26,7 @@ func main() {
     fmt.Println("Useing AccessKeySecret:\n\t", access_key_secret)
     fmt.Println("")
 
+    // Example usage
     ecs_client := ecs.NewEcsClient(access_key_id,access_key_secret)
     res, err := ecs_client.DescribeRegions()
     if err == nil {
