@@ -2,6 +2,8 @@ package main
 
 import (
     "fmt"
+    "strings"
+    "io/ioutil"
 
     "aliyun/ecs"
 )
@@ -9,7 +11,20 @@ import (
 func main() {
     fmt.Println("----- Test Start -----")
 
-    ecs_client := ecs.NewEcsClient("access_key_id","access_key_secret")
+    f, err := ioutil.ReadFile("src/_key.txt")
+    if err != nil {
+        fmt.Println("Can't open `_key.txt`")
+        return
+    }
+
+    access_key        := strings.Split(string(f), "\n")
+    access_key_id     := access_key[0]
+    access_key_secret := access_key[1]
+
+    fmt.Println("Useing AccessKeyId:",     access_key_id)
+    fmt.Println("Useing AccessKeySecret:", access_key_secret)
+
+    ecs_client := ecs.NewEcsClient(access_key_id,access_key_secret)
     res, err := ecs_client.DescribeRegions()
     if err == nil {
         fmt.Println(res)

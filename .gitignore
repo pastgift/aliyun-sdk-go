@@ -24,4 +24,5 @@ _testmain.go
 *.prof
 
 # Additional
+.DS_Store
 _key.txt

@@ -5,8 +5,6 @@ package ecs
  */
 
 import (
-    "fmt"
-
     "net/http"
     "net/url"
     "io/ioutil"
@@ -112,9 +110,6 @@ func (self *EcsClient) DescribeRegions() (result string, err error) {
     self.prepareAction("DescribeRegions")
     self.addSignature()
     self.prepareUrl()
-
-    fmt.Println(">>>", self.ApiUrl.String())
-    fmt.Println(">>>", self.ApiQuery.Get("Signature"))
 
     return self.callApi()
 }
