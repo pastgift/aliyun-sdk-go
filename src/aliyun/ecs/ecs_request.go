@@ -22,9 +22,9 @@ const (
 )
 
 type ECSRequest struct {
-    Method       string
-    URL          url.URL
-    Query        url.Values
+    Method       string     "Request Method"
+    URL          url.URL    "URL without Query"
+    Query        url.Values "Queries"
 }
 
 func NewECSRequest(action string) (newECSRequest *ECSRequest) {

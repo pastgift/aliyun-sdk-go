@@ -8,8 +8,8 @@ import (
 )
 
 type ECSClient struct {
-    AccessKeyId     string
-    AccessKeySecret string
+    AccessKeyId     string  "AccessKey Id"
+    AccessKeySecret string  "AccessKey Secret"
 }
 
 func NewECSClient(accesskey_id string, accesskey_secret string) (newECSClient *ECSClient) {
@@ -21,7 +21,9 @@ func NewECSClient(accesskey_id string, accesskey_secret string) (newECSClient *E
     return client
 }
 
-func (self *ECSClient) Do(ecs_req *ECSRequest) (resp string, err error) {
+func (self *ECSClient) Do(ecs_req *ECSRequest) (resp ECSResponse, err error) {
+    resp = ECSResponse{}
+
     // Sign request
     ecs_req.Sign(self.AccessKeyId, self.AccessKeySecret)
 
@@ -30,7 +32,7 @@ func (self *ECSClient) Do(ecs_req *ECSRequest) (resp string, err error) {
     ecs_req.URL.RawQuery = ecs_req.Query.Encode()
     http_req, err := http.NewRequest(ecs_req.Method, ecs_req.URL.String(), nil)
     if err != nil {
-        return "", err
+        return resp, err
     }
 
     t0 := time.Now()
@@ -39,14 +41,17 @@ func (self *ECSClient) Do(ecs_req *ECSRequest) (resp string, err error) {
     log.Printf("The API call took %v to run.\n", t1.Sub(t0))
 
     if err != nil {
-        return "", err
+        return resp, err
     }
 
     body, err := ioutil.ReadAll(http_resp.Body)
     if err != nil {
-        return "", err
+        return resp, err
     }
     defer http_resp.Body.Close()
 
-    return string(body), nil
+    resp.StatusCode = http_resp.StatusCode
+    resp.RawBody    = body
+
+    return resp, nil
 }

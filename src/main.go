@@ -1,7 +1,7 @@
 package main
 
 import (
-    "fmt"
+    "log"
     "strings"
     "io/ioutil"
 
@@ -9,12 +9,12 @@ import (
 )
 
 func main() {
-    fmt.Println("----- Test Start -----")
+    log.Println("----- Test Start -----")
 
     // Get AccessKeyId and AccessKeySecret
     f, err := ioutil.ReadFile("src/_key.txt")
     if err != nil {
-        fmt.Println("Can't open `_key.txt`")
+        log.Println("Can't open `_key.txt`")
         return
     }
 
@@ -22,16 +22,15 @@ func main() {
     access_key_id     := access_key[0]
     access_key_secret := access_key[1]
 
-    fmt.Println("Useing AccessKeyId:\n\t",     access_key_id)
-    fmt.Println("Useing AccessKeySecret:\n\t", access_key_secret)
-    fmt.Println("")
+    log.Println("Useing AccessKeyId:    ",     access_key_id)
+    log.Println("Useing AccessKeySecret:", access_key_secret)
 
     // Example usage
     ecs_client := ecs.NewECSClient(access_key_id,access_key_secret)
-    res, err := ecs_client.DescribeRegions()
+    result, err := ecs_client.DescribeRegions()
     if err == nil {
-        fmt.Println("API result:\n\t", res)
+        log.Printf("API result:\n\t %+v\n", result)
     }
 
-    fmt.Println("----- Test End -----")
+    log.Println("----- Test End -----")
 }
