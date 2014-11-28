@@ -4,6 +4,7 @@ import (
     "time"
     "math/rand"
     "strconv"
+    "strings"
     "encoding/base64"
     "crypto/sha1"
     "crypto/hmac"
@@ -35,10 +36,10 @@ func ComputeSignature(string_to_signature string, accesskey_secret string) (sign
     return sign_base64
 }
 
-func SignReplace(string s) string {
-    s = strings.Replace(q, "+", "%20", -1)
-    s = strings.Replace(q, "*", "%2A", -1)
-    s = strings.Replace(q, "%7E", "~", -1)
+func PercentReplace(s string) string {
+    s = strings.Replace(s, "+", "%20", -1)
+    s = strings.Replace(s, "*", "%2A", -1)
+    s = strings.Replace(s, "%7E", "~", -1)
 
     return s
 }

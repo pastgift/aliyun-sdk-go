@@ -27,10 +27,9 @@ func main() {
     fmt.Println("")
 
     // Example usage
-    ecs_client := ecs.NewEcsClient(access_key_id,access_key_secret)
+    ecs_client := ecs.NewECSClient(access_key_id,access_key_secret)
     res, err := ecs_client.DescribeRegions()
     if err == nil {
-        fmt.Println("Request URL:\n\t", ecs_client.ApiUrl.String())
         fmt.Println("API result:\n\t", res)
     }
 
