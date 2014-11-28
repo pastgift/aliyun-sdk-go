@@ -9,6 +9,14 @@ type ECSResponse struct {
     RawBody    []byte   "Raw byte data"
 }
 
+func NewECSResponse() *ECSResponse {
+    ecs_resp := &ECSResponse{
+        StatusCode:0,
+    }
+
+    return ecs_resp
+}
+
 func (self *ECSResponse) String() string {
     return string(self.RawBody)
 }

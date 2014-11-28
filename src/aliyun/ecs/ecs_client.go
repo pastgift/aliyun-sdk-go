@@ -13,10 +13,10 @@ type ECSClient struct {
 }
 
 func NewECSClient(accesskey_id string, accesskey_secret string) (newECSClient *ECSClient) {
-    client := new(ECSClient)
-
-    client.AccessKeyId     = accesskey_id
-    client.AccessKeySecret = accesskey_secret
+    client := &ECSClient{
+        AccessKeyId     : accesskey_id,
+        AccessKeySecret : accesskey_secret,
+    }
 
     return client
 }
