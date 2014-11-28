@@ -40,31 +40,40 @@ func NewECSRequest(action string) (newECSRequest *ECSRequest) {
     }
 
     req.Query = url.Values{
-        "Action"              :{action},
+        "Action"            :{action},
 
         // Global Queries
-        "Format"              :{REQ_FMT_JSON},
-        "Version"             :{REQ_VER},
+        "Format"            :{REQ_FMT_JSON},
+        "Version"           :{REQ_VER},
+
+        "Timestamp"         :{""},
+        "SignatureNonce"    :{""},
+        "SignatureMethod"   :{""},
+        "SignatureVersion"  :{""},
+        "AccessKeyId"       :{""},
 
         // Optional Field
         //"ResourceOwnerAccount",
+
+        // Signature must be done after all other query terms are ready
+        //"Signature"         :{""},
     }
 
     return req
 }
 
-func (self *ECSRequest) AddArgument(key string, value string) {
+func (self *ECSRequest) SetArgument(key string, value string) {
     self.Query.Set(key, value)
 }
 
 func (self *ECSRequest) Sign(accesskey_id string, accesskey_secret string) {
-    self.AddArgument("SignatureMethod",     REQ_SIGN_METHOD)
-    self.AddArgument("SignatureVersion",    REQ_SIGN_VER)
-    self.AddArgument("AccessKeyId",         accesskey_id)
-
     // Each request need a new `Timestamp` and a new `SignatureNonce`
-    self.AddArgument("Timestamp",           util.CreateTimestampString(REQ_TMSP_LAYOUT))
-    self.AddArgument("SignatureNonce",      util.CreateRandomString())
+    self.SetArgument("Timestamp",           util.CreateTimestampString(REQ_TMSP_LAYOUT))
+    self.SetArgument("SignatureNonce",      util.CreateRandomString())
+    
+    self.SetArgument("SignatureMethod",     REQ_SIGN_METHOD)
+    self.SetArgument("SignatureVersion",    REQ_SIGN_VER)
+    self.SetArgument("AccessKeyId",         accesskey_id)
     
     q := self.Query.Encode()
     q = util.PercentReplace(q)
@@ -77,7 +86,6 @@ func (self *ECSRequest) Sign(accesskey_id string, accesskey_secret string) {
     //    url.QueryEscape("/") + "&" + q
     string_to_sign := "GET&%2F&" + q
 
-    // Signature must be done after all the query terms a ready
     sign := util.ComputeSignature(string_to_sign, accesskey_secret)
-    self.AddArgument("Signature", sign)
+    self.SetArgument("Signature", sign)
 }

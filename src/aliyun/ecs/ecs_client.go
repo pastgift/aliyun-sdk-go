@@ -1,6 +1,8 @@
 package ecs
 
 import (
+    "log"
+    "time"
     "net/http"
     "io/ioutil"
 )
@@ -31,8 +33,10 @@ func (self *ECSClient) Do(ecs_req *ECSRequest) (resp string, err error) {
         return "", err
     }
 
+    t0 := time.Now()
     http_resp, err := http_client.Do(http_req)
-    defer http_resp.Body.Close()
+    t1 := time.Now()
+    log.Printf("The API call took %v to run.\n", t1.Sub(t0))
 
     if err != nil {
         return "", err
@@ -42,6 +46,7 @@ func (self *ECSClient) Do(ecs_req *ECSRequest) (resp string, err error) {
     if err != nil {
         return "", err
     }
+    defer http_resp.Body.Close()
 
     return string(body), nil
 }
