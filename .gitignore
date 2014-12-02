@@ -25,4 +25,4 @@ _testmain.go
 
 # Additional
 .DS_Store
-_key.txt
+_*.txt

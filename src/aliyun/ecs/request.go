@@ -21,18 +21,18 @@ const (
     REQ_TMSP_LAYOUT  = "2006-01-02T15:04:05Z"
 )
 
-type ECSRequest struct {
+type Request struct {
     Method       string     "Request Method"
     URL          url.URL    "URL without Query"
     Query        url.Values "Queries"
 }
 
-func NewECSRequest(action string) (newECSRequest *ECSRequest) {
-    req := new(ECSRequest)
-    
+func NewRequest(action string) (newRequest *Request) {
+    req := new(Request)
+
     // All ECS APIs are using GET method
     req.Method = "GET"
-    
+
     req.URL = url.URL{
         Scheme:REQ_SCHEME_HTTP,
         Host  :REQ_HOST,
@@ -62,30 +62,40 @@ func NewECSRequest(action string) (newECSRequest *ECSRequest) {
     return req
 }
 
-func (self *ECSRequest) SetArgument(key string, value string) {
+func (self *Request) SetArg(key string, value string) {
+    // For deleting key(value == ""), Getting value 
+    // from inexisting key also return an empty string.  
+    if value == self.Query.Get(key) {
+        return
+    }
+
+    if value == "" {
+        self.Query.Del(key)
+    }
+
     self.Query.Set(key, value)
 }
 
-func (self *ECSRequest) Sign(accesskey_id string, accesskey_secret string) {
+func (self *Request) Sign(accesskeyId string, accesskeySecret string) {
     // Each request need a new `Timestamp` and a new `SignatureNonce`
-    self.SetArgument("Timestamp",           util.CreateTimestampString(REQ_TMSP_LAYOUT))
-    self.SetArgument("SignatureNonce",      util.CreateRandomString())
-    
-    self.SetArgument("SignatureMethod",     REQ_SIGN_METHOD)
-    self.SetArgument("SignatureVersion",    REQ_SIGN_VER)
-    self.SetArgument("AccessKeyId",         accesskey_id)
-    
+    self.SetArg("Timestamp",           util.CreateTimestampString(REQ_TMSP_LAYOUT))
+    self.SetArg("SignatureNonce",      util.CreateRandomString())
+
+    self.SetArg("SignatureMethod",     REQ_SIGN_METHOD)
+    self.SetArg("SignatureVersion",    REQ_SIGN_VER)
+    self.SetArg("AccessKeyId",         accesskeyId)
+
     q := self.Query.Encode()
     q = util.PercentReplace(q)
 
     q = url.QueryEscape(q)
     q = util.PercentReplace(q)
 
-    // string_to_sign = 
+    // stringToSign = 
     //    "GET" + "&" + 
     //    url.QueryEscape("/") + "&" + q
-    string_to_sign := "GET&%2F&" + q
+    stringToSign := "GET&%2F&" + q
 
-    sign := util.ComputeSignature(string_to_sign, accesskey_secret)
-    self.SetArgument("Signature", sign)
+    sign := util.ComputeSignature(stringToSign, accesskeySecret)
+    self.SetArg("Signature", sign)
 }

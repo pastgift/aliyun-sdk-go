@@ -18,19 +18,18 @@ func main() {
         return
     }
 
-    access_key        := strings.Split(string(f), "\n")
-    access_key_id     := access_key[0]
-    access_key_secret := access_key[1]
+    accessKey       := strings.Split(string(f), "\n")
+    accessKeyId     := accessKey[0]
+    accessKeySecret := accessKey[1]
 
-    log.Println("Useing AccessKeyId:    ",     access_key_id)
-    log.Println("Useing AccessKeySecret:", access_key_secret)
+    log.Println("Useing AccessKeyId:    ", accessKeyId)
+    log.Println("Useing AccessKeySecret:", accessKeySecret)
 
     // Example usage
-    ecs_client := ecs.NewECSClient(access_key_id,access_key_secret)
-    result, err := ecs_client.DescribeRegions()
-    if err == nil {
-        log.Printf("API result:\n\t %+v\n", result)
-    }
+    ecsClient := ecs.NewClient(accessKeyId,accessKeySecret)
+
+    ecsClient.DescribeRegions()
+    ecsClient.DescribeZones("cn-hangzhou")
 
     log.Println("----- Test End -----")
 }
