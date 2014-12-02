@@ -63,6 +63,16 @@ func NewRequest(action string) (newRequest *Request) {
 }
 
 func (self *Request) SetArg(key string, value string) {
+    // For deleting key(value == ""), Getting value 
+    // from inexisting key also return an empty string.  
+    if value == self.Query.Get(key) {
+        return
+    }
+
+    if value == "" {
+        self.Query.Del(key)
+    }
+
     self.Query.Set(key, value)
 }
 

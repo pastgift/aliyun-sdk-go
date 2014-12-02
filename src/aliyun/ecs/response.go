@@ -21,6 +21,6 @@ func (self *Response) String() string {
     return string(self.RawBody)
 }
 
-func (self *Response) FillJson(target interface{}) error {
+func (self *Response) FillTo(target interface{}) error {
     return json.Unmarshal(self.RawBody, target)
 }
