@@ -11,29 +11,29 @@ import (
 )
 
 func CreateTimestampString(layout string) (string) {
-    tmsp_str := time.Now().UTC().Format(layout)
+    tmspStr := time.Now().UTC().Format(layout)
 
-    return tmsp_str
+    return tmspStr
 }
 
 func CreateRandomString() (string) {
     rand.Seed(time.Now().UnixNano())
-    rand_int := rand.Int63()
-    rand_str := strconv.FormatInt(rand_int, 36)
+    randInt := rand.Int63()
+    randStr := strconv.FormatInt(randInt, 36)
 
-    return rand_str
+    return randStr
 }
 
-func ComputeSignature(string_to_signature string, accesskey_secret string) (signature string) {
+func ComputeSignature(stringToSignature string, accesskeySecret string) (signature string) {
     // Crypto by HMAC-SHA1
-    hmac_sha1 := hmac.New(sha1.New ,[]byte(accesskey_secret + "&"))
-    hmac_sha1.Write([]byte(string_to_signature))
-    sign := hmac_sha1.Sum(nil)
+    hmacSha1 := hmac.New(sha1.New ,[]byte(accesskeySecret + "&"))
+    hmacSha1.Write([]byte(stringToSignature))
+    sign := hmacSha1.Sum(nil)
 
     // Encode to Base64
-    sign_base64 := base64.StdEncoding.EncodeToString(sign)
+    base64Sign := base64.StdEncoding.EncodeToString(sign)
 
-    return sign_base64
+    return base64Sign
 }
 
 func PercentReplace(s string) string {
