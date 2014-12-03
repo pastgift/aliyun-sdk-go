@@ -70,11 +70,9 @@ type ModifyInstanceAttributeResult struct {
 }
 
 func (self *Client) ModifyInstanceAttribute(args *ModifyInstanceAttributeArgs) (result *ModifyInstanceAttributeResult, errorResult *ErrorResult) {
-    req := NewRequest("DescribeRegions")
+    act := "DescribeRegions"
     res := new(ModifyInstanceAttributeResult)
-
-    req.SetArgs(args)
-    errRes := self.CallAPI(req, res)
+    errRes := self.CallAPI(act, args, res)
 
     return res, errRes
 }

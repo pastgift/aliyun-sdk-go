@@ -21,8 +21,11 @@ type ErrorResult struct {
     Message string `json:"Message"`
 }
 
-func (self *Client) CallAPI(req *Request, res interface{}) (errorResult *ErrorResult) {
+func (self *Client) CallAPI(action string, args interface{}, res interface{}) (errorResult *ErrorResult) {
     errRes := new(ErrorResult)
+
+    req := NewRequest(action)
+    req.SetArgs(args)
 
     resp, err := self.Do(req)
     if err != nil {

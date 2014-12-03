@@ -5,6 +5,9 @@ import (
 
 /* API on Region */
 // Get `Region` list
+type DescribeRegionsArgs struct {
+}
+
 type DescribeRegionsResult struct {
     GlobalResult
     Regions struct {
@@ -16,10 +19,10 @@ type DescribeRegionsResult struct {
 }
 
 func (self *Client) DescribeRegions() (result *DescribeRegionsResult, errorResult *ErrorResult) {
-    req := NewRequest("DescribeRegions")
-    res := new(DescribeRegionsResult)
-
-    errRes := self.CallAPI(req, res)
+    act  := "DescribeRegions"
+    args := new(DescribeRegionsArgs)
+    res  := new(DescribeRegionsResult)
+    errRes := self.CallAPI(act, args, res)
 
     return res, errRes
 }
@@ -46,14 +49,11 @@ type DescribeZonesResult struct {
 }
 
 func (self *Client) DescribeZones(args *DescribeZonesArgs) (result *DescribeZonesResult, errorResult *ErrorResult) {
-    req := NewRequest("DescribeZones")
+    act := "DescribeZones"
     res := new(DescribeZonesResult)
+    errRes := self.CallAPI(act, args, res)
 
-    //req.SetArg("RegionId", args.RegionId)
-    req.SetArgs(args)
-    errRes := self.CallAPI(req, res)
-
-    // Additional error message for user
+    // If there is no Zone, API will not return Error
     if errRes == nil && len(res.Zones.Zone) == 0 {
         errRes = &ErrorResult{Message:"No Zone Found"}
     }
