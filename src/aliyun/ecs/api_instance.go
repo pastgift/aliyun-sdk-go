@@ -1,7 +1,6 @@
 package ecs
 
 import (
-    "errors"
 )
 
 /* API on Instance */
@@ -12,7 +11,7 @@ type CreateInstanceResult struct {
     //...
 }
 
-func (self *Client) CreateInstance() (result CreateInstanceResult, err error) {
+func (self *Client) CreateInstance() (result CreateInstanceResult, errorResult *ErrorResult) {
     res := CreateInstanceResult{}
     //...
     return res, nil
@@ -25,7 +24,7 @@ type StartInstanceResult struct {
     //...
 }
 
-func (self *Client) StartInstance() (result StartInstanceResult, err error) {
+func (self *Client) StartInstance() (result StartInstanceResult, errorResult *ErrorResult) {
     res := StartInstanceResult{}
     //...
     return res, nil
@@ -38,7 +37,7 @@ type StopInstanceResult struct {
     //...
 }
 
-func (self *Client) StopInstance() (result StopInstanceResult, err error) {
+func (self *Client) StopInstance() (result StopInstanceResult, errorResult *ErrorResult) {
     res := StopInstanceResult{}
     //...
     return res, nil
@@ -51,33 +50,33 @@ type RebootInstanceResult struct {
     //...
 }
 
-func (self *Client) RebootInstance() (result RebootInstanceResult, err error) {
+func (self *Client) RebootInstance() (result RebootInstanceResult, errorResult *ErrorResult) {
     res := RebootInstanceResult{}
     //...
     return res, nil
 }
 
 // Modify `Instance` attribute
+type ModifyInstanceAttributeArgs struct {
+    InstanceID string
+    InstanceName string
+    Description string
+    Password string
+    HostName string
+}
+
 type ModifyInstanceAttributeResult struct {
     GlobalResult
 }
 
-func (self *Client) ModifyInstanceAttribute(instanceID string, instanceName string, description string, password string, hostName string) (result *ModifyInstanceAttributeResult, err error) {
+func (self *Client) ModifyInstanceAttribute(args *ModifyInstanceAttributeArgs) (result *ModifyInstanceAttributeResult, errorResult *ErrorResult) {
     req := NewRequest("DescribeRegions")
     res := new(ModifyInstanceAttributeResult)
 
-    if instanceID == "" {
-        return res, errors.New("InstanceID should not be blank")
-    }
+    req.SetArgs(args)
+    errRes := self.CallAPI(req, res)
 
-    req.SetArg("InstanceID", instanceID)
-    req.SetArg("InstanceName", instanceName)
-    req.SetArg("Description", description)
-    req.SetArg("Password", password)
-    req.SetArg("HostName", hostName)
-
-    err = self.CallAPI(req, res)
-    return res, err
+    return res, errRes
 }
 
 // Describe `Instance` status
@@ -87,7 +86,7 @@ type DescribeInstanceStatusResult struct {
     //...
 }
 
-func (self *Client) DescribeInstanceStatus() (result DescribeInstanceStatusResult, err error) {
+func (self *Client) DescribeInstanceStatus() (result DescribeInstanceStatusResult, errorResult *ErrorResult) {
     res := DescribeInstanceStatusResult{}
     //...
     return res, nil
@@ -100,7 +99,7 @@ type DescribeInstanceAttributeResult struct {
     //...
 }
 
-func (self *Client) DescribeInstanceAttribute() (result DescribeInstanceAttributeResult, err error) {
+func (self *Client) DescribeInstanceAttribute() (result DescribeInstanceAttributeResult, errorResult *ErrorResult) {
     res := DescribeInstanceAttributeResult{}
     //...
     return res, nil
@@ -113,7 +112,7 @@ type DeleteInstanceResult struct {
     //...
 }
 
-func (self *Client) DeleteInstance() (result DeleteInstanceResult, err error) {
+func (self *Client) DeleteInstance() (result DeleteInstanceResult, errorResult *ErrorResult) {
     res := DeleteInstanceResult{}
     //...
     return res, nil
@@ -126,7 +125,7 @@ type JoinSecurityGroupResult struct {
     //...
 }
 
-func (self *Client) JoinSecurityGroup() (result JoinSecurityGroupResult, err error) {
+func (self *Client) JoinSecurityGroup() (result JoinSecurityGroupResult, errorResult *ErrorResult) {
     res := JoinSecurityGroupResult{}
     //...
     return res, nil
@@ -139,7 +138,7 @@ type LeaveSecurityGroupResult struct {
     //...
 }
 
-func (self *Client) LeaveSecurityGroup() (result LeaveSecurityGroupResult, err error) {
+func (self *Client) LeaveSecurityGroup() (result LeaveSecurityGroupResult, errorResult *ErrorResult) {
     res := LeaveSecurityGroupResult{}
     //...
     return res, nil

@@ -1,7 +1,6 @@
 package ecs
 
 import (
-    "errors"
 )
 
 /* API on Region */
@@ -16,15 +15,20 @@ type DescribeRegionsResult struct {
     } `json:"Regions"`
 }
 
-func (self *Client) DescribeRegions() (result *DescribeRegionsResult, err error) {
+func (self *Client) DescribeRegions() (result *DescribeRegionsResult, errorResult *ErrorResult) {
     req := NewRequest("DescribeRegions")
     res := new(DescribeRegionsResult)
 
-    err = self.CallAPI(req, res)
-    return res, err
+    errRes := self.CallAPI(req, res)
+
+    return res, errRes
 }
 
 // Get `Zone` list
+type DescribeZonesArgs struct {
+    RegionId string
+}
+
 type DescribeZonesResult struct {
     GlobalResult
     Zones struct {
@@ -41,16 +45,18 @@ type DescribeZonesResult struct {
     } `json:"Zones"`
 }
 
-func (self *Client) DescribeZones(regionId string) (result *DescribeZonesResult, err error) {
+func (self *Client) DescribeZones(args *DescribeZonesArgs) (result *DescribeZonesResult, errorResult *ErrorResult) {
     req := NewRequest("DescribeZones")
     res := new(DescribeZonesResult)
 
-    if regionId == "" {
-        return res, errors.New("RegionId should not be blank")
+    //req.SetArg("RegionId", args.RegionId)
+    req.SetArgs(args)
+    errRes := self.CallAPI(req, res)
+
+    // Additional error message for user
+    if errRes == nil && len(res.Zones.Zone) == 0 {
+        errRes = &ErrorResult{Message:"No Zone Found"}
     }
 
-    req.SetArg("RegionId", regionId)
-
-    err = self.CallAPI(req, res)
-    return res, err
+    return res, errRes
 }
