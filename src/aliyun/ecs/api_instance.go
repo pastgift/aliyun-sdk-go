@@ -11,7 +11,7 @@ type CreateInstanceResult struct {
     //...
 }
 
-func (self *Client) CreateInstance() (result CreateInstanceResult, errorResult *ErrorResult) {
+func (self *Client) CreateInstance() (result *CreateInstanceResult, errorResult *ErrorResult) {
     res := CreateInstanceResult{}
     //...
     return res, nil
@@ -24,7 +24,7 @@ type StartInstanceResult struct {
     //...
 }
 
-func (self *Client) StartInstance() (result StartInstanceResult, errorResult *ErrorResult) {
+func (self *Client) StartInstance() (result *StartInstanceResult, errorResult *ErrorResult) {
     res := StartInstanceResult{}
     //...
     return res, nil
@@ -37,7 +37,7 @@ type StopInstanceResult struct {
     //...
 }
 
-func (self *Client) StopInstance() (result StopInstanceResult, errorResult *ErrorResult) {
+func (self *Client) StopInstance() (result *StopInstanceResult, errorResult *ErrorResult) {
     res := StopInstanceResult{}
     //...
     return res, nil
@@ -50,7 +50,7 @@ type RebootInstanceResult struct {
     //...
 }
 
-func (self *Client) RebootInstance() (result RebootInstanceResult, errorResult *ErrorResult) {
+func (self *Client) RebootInstance() (result *RebootInstanceResult, errorResult *ErrorResult) {
     res := RebootInstanceResult{}
     //...
     return res, nil
@@ -70,9 +70,8 @@ type ModifyInstanceAttributeResult struct {
 }
 
 func (self *Client) ModifyInstanceAttribute(args *ModifyInstanceAttributeArgs) (result *ModifyInstanceAttributeResult, errorResult *ErrorResult) {
-    act := "DescribeRegions"
     res := new(ModifyInstanceAttributeResult)
-    errRes := self.CallAPI(act, args, res)
+    errRes := self.CallAPI("DescribeRegions", args, res)
 
     return res, errRes
 }
@@ -84,7 +83,7 @@ type DescribeInstanceStatusResult struct {
     //...
 }
 
-func (self *Client) DescribeInstanceStatus() (result DescribeInstanceStatusResult, errorResult *ErrorResult) {
+func (self *Client) DescribeInstanceStatus() (result *DescribeInstanceStatusResult, errorResult *ErrorResult) {
     res := DescribeInstanceStatusResult{}
     //...
     return res, nil
@@ -97,7 +96,7 @@ type DescribeInstanceAttributeResult struct {
     //...
 }
 
-func (self *Client) DescribeInstanceAttribute() (result DescribeInstanceAttributeResult, errorResult *ErrorResult) {
+func (self *Client) DescribeInstanceAttribute() (result *DescribeInstanceAttributeResult, errorResult *ErrorResult) {
     res := DescribeInstanceAttributeResult{}
     //...
     return res, nil
@@ -110,7 +109,7 @@ type DeleteInstanceResult struct {
     //...
 }
 
-func (self *Client) DeleteInstance() (result DeleteInstanceResult, errorResult *ErrorResult) {
+func (self *Client) DeleteInstance() (result *DeleteInstanceResult, errorResult *ErrorResult) {
     res := DeleteInstanceResult{}
     //...
     return res, nil
@@ -123,7 +122,7 @@ type JoinSecurityGroupResult struct {
     //...
 }
 
-func (self *Client) JoinSecurityGroup() (result JoinSecurityGroupResult, errorResult *ErrorResult) {
+func (self *Client) JoinSecurityGroup() (result *JoinSecurityGroupResult, errorResult *ErrorResult) {
     res := JoinSecurityGroupResult{}
     //...
     return res, nil
@@ -136,7 +135,7 @@ type LeaveSecurityGroupResult struct {
     //...
 }
 
-func (self *Client) LeaveSecurityGroup() (result LeaveSecurityGroupResult, errorResult *ErrorResult) {
+func (self *Client) LeaveSecurityGroup() (result *LeaveSecurityGroupResult, errorResult *ErrorResult) {
     res := LeaveSecurityGroupResult{}
     //...
     return res, nil

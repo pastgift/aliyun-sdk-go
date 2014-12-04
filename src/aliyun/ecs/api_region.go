@@ -19,10 +19,9 @@ type DescribeRegionsResult struct {
 }
 
 func (self *Client) DescribeRegions() (result *DescribeRegionsResult, errorResult *ErrorResult) {
-    act  := "DescribeRegions"
     args := new(DescribeRegionsArgs)
     res  := new(DescribeRegionsResult)
-    errRes := self.CallAPI(act, args, res)
+    errRes := self.CallAPI("DescribeRegions", args, res)
 
     return res, errRes
 }
@@ -49,9 +48,8 @@ type DescribeZonesResult struct {
 }
 
 func (self *Client) DescribeZones(args *DescribeZonesArgs) (result *DescribeZonesResult, errorResult *ErrorResult) {
-    act := "DescribeZones"
     res := new(DescribeZonesResult)
-    errRes := self.CallAPI(act, args, res)
+    errRes := self.CallAPI("DescribeZones", args, res)
 
     // If there is no Zone, API will not return Error
     if errRes == nil && len(res.Zones.Zone) == 0 {
