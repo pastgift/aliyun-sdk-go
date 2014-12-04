@@ -12,8 +12,8 @@ type DescribeRegionsResult struct {
     GlobalResult
     Regions struct {
         Region []struct {
-            RegionId string `json:"RegionID"`
-            LocalName string `json:"LocalName"`
+            RegionId    string  `json:"RegionID"`
+            LocalName   string  `json:"LocalName"`
         } `json:"Region"`
     } `json:"Regions"`
 }
@@ -35,14 +35,14 @@ type DescribeZonesResult struct {
     GlobalResult
     Zones struct {
         Zone []struct {
-            ZoneId string `json:"ZoneId"`
-            LocalName string `json:"LocalName"`
-            AvailableDiskCategories struct {
-                DiskCategories []string `json:"DiskCategories"`
-            } `json:"AvailableDiskCategories"`
-            AvailableResourceCreation struct {
-                ResourceTypes []string `json:"ResourceTypes"`
-            } `json:"AvailableResourceCreation"`
+            ZoneId                      string  `json:"ZoneId"`
+            LocalName                   string  `json:"LocalName"`
+            AvailableDiskCategories     struct {
+                DiskCategories              []string    `json:"DiskCategories"`
+            }                                   `json:"AvailableDiskCategories"`
+            AvailableResourceCreation   struct {
+                ResourceTypes               []string    `json:"ResourceTypes"`
+            }                                   `json:"AvailableResourceCreation"`
         } `json:"Zone"`
     } `json:"Zones"`
 }
