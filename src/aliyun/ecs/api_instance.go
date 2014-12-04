@@ -1,7 +1,6 @@
 package ecs
 
 import (
-    "errors"
 )
 
 /* API on Instance */
@@ -12,8 +11,8 @@ type CreateInstanceResult struct {
     //...
 }
 
-func (self *Client) CreateInstance() (result CreateInstanceResult, err error) {
-    res := CreateInstanceResult{}
+func (self *Client) CreateInstance() (result *CreateInstanceResult, errorResult *ErrorResult) {
+    res := new(CreateInstanceResult)
     //...
     return res, nil
 }
@@ -25,8 +24,8 @@ type StartInstanceResult struct {
     //...
 }
 
-func (self *Client) StartInstance() (result StartInstanceResult, err error) {
-    res := StartInstanceResult{}
+func (self *Client) StartInstance() (result *StartInstanceResult, errorResult *ErrorResult) {
+    res := new(StartInstanceResult)
     //...
     return res, nil
 }
@@ -38,8 +37,8 @@ type StopInstanceResult struct {
     //...
 }
 
-func (self *Client) StopInstance() (result StopInstanceResult, err error) {
-    res := StopInstanceResult{}
+func (self *Client) StopInstance() (result *StopInstanceResult, errorResult *ErrorResult) {
+    res := new(StopInstanceResult)
     //...
     return res, nil
 }
@@ -51,59 +50,104 @@ type RebootInstanceResult struct {
     //...
 }
 
-func (self *Client) RebootInstance() (result RebootInstanceResult, err error) {
-    res := RebootInstanceResult{}
+func (self *Client) RebootInstance() (result *RebootInstanceResult, errorResult *ErrorResult) {
+    res := new(RebootInstanceResult)
     //...
     return res, nil
 }
 
 // Modify `Instance` attribute
+type ModifyInstanceAttributeArgs struct {
+    InstanceID      string
+    InstanceName    string
+    Description     string
+    Password        string
+    HostName        string
+}
+
 type ModifyInstanceAttributeResult struct {
     GlobalResult
 }
 
-func (self *Client) ModifyInstanceAttribute(instanceID string, instanceName string, description string, password string, hostName string) (result *ModifyInstanceAttributeResult, err error) {
-    req := NewRequest("DescribeRegions")
+func (self *Client) ModifyInstanceAttribute(args *ModifyInstanceAttributeArgs) (result *ModifyInstanceAttributeResult, errorResult *ErrorResult) {
     res := new(ModifyInstanceAttributeResult)
+    errRes := self.CallAPI("ModifyInstanceAttribute", args, res)
 
-    if instanceID == "" {
-        return res, errors.New("InstanceID should not be blank")
-    }
-
-    req.SetArg("InstanceID", instanceID)
-    req.SetArg("InstanceName", instanceName)
-    req.SetArg("Description", description)
-    req.SetArg("Password", password)
-    req.SetArg("HostName", hostName)
-
-    err = self.CallAPI(req, res)
-    return res, err
+    return res, errRes
 }
 
 // Describe `Instance` status
-// TODO
-type DescribeInstanceStatusResult struct {
-    GlobalResult
-    //...
+type DescribeInstanceStatusArgs struct {
+    RegionId    string
+    ZoneId      string
+    PageNumber  string
+    PageSize    string
 }
 
-func (self *Client) DescribeInstanceStatus() (result DescribeInstanceStatusResult, err error) {
-    res := DescribeInstanceStatusResult{}
-    //...
-    return res, nil
+type DescribeInstanceStatusResult struct {
+    GlobalResult
+
+    TotalCount          int `json:"TotalCount"`
+    PageNumber          int `json:"PageNumber"`
+    PageSize            int `json:"PageSize"`
+    InstanceStatuses    struct {
+        InstanceStatus      []struct {
+            InstanceId          string  `json:"InstanceId"`
+            Status              string  `json:"Status"`
+        }                   `json:InstanceStatus`
+    }                       `json:"InstanceStatuses"`
+}
+
+func (self *Client) DescribeInstanceStatus(args *DescribeInstanceStatusArgs) (result *DescribeInstanceStatusResult, errorResult *ErrorResult) {
+    res := new(DescribeInstanceStatusResult)
+    errRes := self.CallAPI("DescribeInstanceStatus", args, res)
+
+    return res, errRes
 }
 
 // Describe `Instance` attribute
-// TODO
-type DescribeInstanceAttributeResult struct {
-    GlobalResult
-    //...
+type DescribeInstanceAttributeArgs struct {
+    InstanceId string
 }
 
-func (self *Client) DescribeInstanceAttribute() (result DescribeInstanceAttributeResult, err error) {
-    res := DescribeInstanceAttributeResult{}
-    //...
-    return res, nil
+type DescribeInstanceAttributeResult struct {
+    GlobalResult
+
+    ClusterId               string  `json:"ClusterId"`
+    CreationTime            string  `json:"CreationTime"`
+    Description             string  `json:"Description"`
+    HostName                string  `json:"HostName"`
+    ImageId                 string  `json:"ImageId"`
+    InnerIpAddress          struct {
+        IpAddress               []string    `json:"IpAddress"`
+    }                               `json:"InnerIpAddress"`
+    InstanceId              string  `json:"InstanceId"`
+    InstanceName            string  `json:"InstanceName"`
+    InstanceType            string  `json:"InstanceType"`
+    InternetChargeType      string  `json:"InternetChargeType"`
+    InternetMaxBandwidthIn  int     `json:"InternetMaxBandwidthIn"`
+    InternetMaxBandwidthOut int     `json:"InternetMaxBandwidthOut"`
+    OperationLocks          struct {
+        OperationLock           []string    `json:"OperationLock"`
+    }                               `json:"OperationLocks"`
+    PublicIpAddress         struct {
+        IpAddress               []string    `json:"IpAddress"`
+    }                               `json:"PublicIpAddress"`
+    RegionId                string  `json:"RegionId"`
+    SecurityGroupIds        struct {
+        SecurityGroupId         []string    `json:"SecurityGroupId"`
+    }                               `json:"SecurityGroupIds"`
+    SerialNumber            string  `json:"SerialNumber"`
+    Status                  string  `json:"Status"`
+    VlanId                  string  `json:"VlanId"`
+    ZoneId                  string  `json:"ZoneId"`
+}
+
+func (self *Client) DescribeInstanceAttribute(args *DescribeInstanceAttributeArgs ) (result *DescribeInstanceAttributeResult, errorResult *ErrorResult) {
+    res := new(DescribeInstanceAttributeResult)
+    errRes := self.CallAPI("DescribeInstanceAttribute", args, res)
+
+    return res, errRes
 }
 
 // Delete `Instance`
@@ -113,8 +157,8 @@ type DeleteInstanceResult struct {
     //...
 }
 
-func (self *Client) DeleteInstance() (result DeleteInstanceResult, err error) {
-    res := DeleteInstanceResult{}
+func (self *Client) DeleteInstance() (result *DeleteInstanceResult, errorResult *ErrorResult) {
+    res := new(DeleteInstanceResult)
     //...
     return res, nil
 }
@@ -126,8 +170,8 @@ type JoinSecurityGroupResult struct {
     //...
 }
 
-func (self *Client) JoinSecurityGroup() (result JoinSecurityGroupResult, err error) {
-    res := JoinSecurityGroupResult{}
+func (self *Client) JoinSecurityGroup() (result *JoinSecurityGroupResult, errorResult *ErrorResult) {
+    res := new(JoinSecurityGroupResult)
     //...
     return res, nil
 }
@@ -139,8 +183,8 @@ type LeaveSecurityGroupResult struct {
     //...
 }
 
-func (self *Client) LeaveSecurityGroup() (result LeaveSecurityGroupResult, err error) {
-    res := LeaveSecurityGroupResult{}
+func (self *Client) LeaveSecurityGroup() (result *LeaveSecurityGroupResult, errorResult *ErrorResult) {
+    res := new(LeaveSecurityGroupResult)
     //...
     return res, nil
 }

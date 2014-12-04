@@ -28,8 +28,22 @@ func main() {
     // Example usage
     ecsClient := ecs.NewClient(accessKeyId,accessKeySecret)
 
-    ecsClient.DescribeRegions()
-    ecsClient.DescribeZones("cn-hangzhou")
+    regionList, errRes := ecsClient.DescribeRegions()
+    if errRes == nil {
+        log.Println("First Region:", regionList.Regions.Region[0].RegionId)
+    } else {
+        log.Println("Error:", errRes.Message)
+    }
+
+    zoneList, errRes := ecsClient.DescribeZones(
+        &ecs.DescribeZonesArgs{
+            RegionId:"cn-hangzhou",
+        })
+    if errRes == nil {
+        log.Println("First Zone:  ", zoneList.Zones.Zone[0].ZoneId)
+    } else {
+        log.Println("Error:", errRes.Message)
+    }
 
     log.Println("----- Test End -----")
 }

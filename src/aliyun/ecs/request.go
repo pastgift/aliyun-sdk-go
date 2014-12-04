@@ -2,6 +2,7 @@ package ecs
 
 import (
     "net/url"
+    "reflect"
 
     "aliyun/util"
 )
@@ -74,6 +75,17 @@ func (self *Request) SetArg(key string, value string) {
     }
 
     self.Query.Set(key, value)
+}
+
+func (self *Request) SetArgs(args interface{}) {
+    // Since args from user is a pointer,
+    // need reflect.Indirect to get it's value.
+    v := reflect.Indirect(reflect.ValueOf(args))
+    t := v.Type()
+
+    for i := 0; i < v.NumField(); i++ {
+       self.SetArg(t.Field(i).Name, v.Field(i).String())
+    }
 }
 
 func (self *Request) Sign(accesskeyId string, accesskeySecret string) {
