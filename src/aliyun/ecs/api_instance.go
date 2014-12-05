@@ -6,55 +6,67 @@ import (
 )
 
 // Create `Instance`
-// TODO
-type CreateInstanceResult struct {
-    GlobalResult
-    //...
+type CreateInstanceArgs struct {
 }
 
-func (self *Client) CreateInstance() (result *CreateInstanceResult, errorResult *ErrorResult) {
+type CreateInstanceResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) CreateInstance(args *CreateInstanceArgs) (result *CreateInstanceResult, errorResult *ErrorResult) {
     res := new(CreateInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("CreateInstance", args, res)
+
+    return res, errRes
 }
 
 // Start `Instance`
-// TODO
-type StartInstanceResult struct {
-    GlobalResult
-    //...
+type StartInstanceArgs struct {
 }
 
-func (self *Client) StartInstance() (result *StartInstanceResult, errorResult *ErrorResult) {
+type StartInstanceResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) StartInstance(args *StartInstanceArgs) (result *StartInstanceResult, errorResult *ErrorResult) {
     res := new(StartInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("StartInstance", args, res)
+
+    return res, errRes
 }
 
 // Stop `Instance`
-// TODO
-type StopInstanceResult struct {
-    GlobalResult
-    //...
+type StopInstanceArgs struct {
 }
 
-func (self *Client) StopInstance() (result *StopInstanceResult, errorResult *ErrorResult) {
+type StopInstanceResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) StopInstance(args *StopInstanceArgs) (result *StopInstanceResult, errorResult *ErrorResult) {
     res := new(StopInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("StopInstance", args, res)
+
+    return res, errRes
 }
 
 // Reboot `Instance`
-// TODO
-type RebootInstanceResult struct {
-    GlobalResult
-    //...
+type RebootInstanceArgs struct {
 }
 
-func (self *Client) RebootInstance() (result *RebootInstanceResult, errorResult *ErrorResult) {
+type RebootInstanceResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) RebootInstance(args *RebootInstanceArgs) (result *RebootInstanceResult, errorResult *ErrorResult) {
     res := new(RebootInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("RebootInstance", args, res)
+
+    return res, errRes
 }
 
 // Modify `Instance` attribute
@@ -152,40 +164,49 @@ func (self *Client) DescribeInstanceAttribute(args *DescribeInstanceAttributeArg
 }
 
 // Delete `Instance`
-// TODO
-type DeleteInstanceResult struct {
-    GlobalResult
-    //...
+type DeleteInstanceArgs struct {
 }
 
-func (self *Client) DeleteInstance() (result *DeleteInstanceResult, errorResult *ErrorResult) {
+type DeleteInstanceResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) DeleteInstance(args *DeleteInstanceArgs) (result *DeleteInstanceResult, errorResult *ErrorResult) {
     res := new(DeleteInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("DeleteInstance", args, res)
+
+    return res, errRes
 }
 
 // Join `SecurityGroup`
-// TODO
-type JoinSecurityGroupResult struct {
-    GlobalResult
-    //...
+type JoinSecurityGroupArgs struct {
 }
 
-func (self *Client) JoinSecurityGroup() (result *JoinSecurityGroupResult, errorResult *ErrorResult) {
+type JoinSecurityGroupResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) JoinSecurityGroup(args *JoinSecurityGroupArgs) (result *JoinSecurityGroupResult, errorResult *ErrorResult) {
     res := new(JoinSecurityGroupResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("JoinSecurityGroup", args, res)
+
+    return res, errRes
 }
 
 // Leave `SecurityGroup`
-// TODO
-type LeaveSecurityGroupResult struct {
-    GlobalResult
-    //...
+type LeaveSecurityGroupArgs struct {
 }
 
-func (self *Client) LeaveSecurityGroup() (result *LeaveSecurityGroupResult, errorResult *ErrorResult) {
+type LeaveSecurityGroupResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) LeaveSecurityGroup(args *LeaveSecurityGroupArgs) (result *LeaveSecurityGroupResult, errorResult *ErrorResult) {
     res := new(LeaveSecurityGroupResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("LeaveSecurityGroup", args, res)
+
+    return res, errRes
 }

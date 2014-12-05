@@ -12,7 +12,7 @@ type Client struct {
     AccessKeySecret string  "AccessKey Secret"
 }
 
-func NewClient(accesskey_id string, accesskey_secret string) (newClient *Client) {
+func NewClient(accesskey_id, accesskey_secret string) *Client {
     client := &Client{
         AccessKeyId     : accesskey_id,
         AccessKeySecret : accesskey_secret,
