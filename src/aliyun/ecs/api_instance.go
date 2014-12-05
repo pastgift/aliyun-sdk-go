@@ -1,9 +1,10 @@
+// API on Instance
+
 package ecs
 
 import (
 )
 
-/* API on Instance */
 // Create `Instance`
 // TODO
 type CreateInstanceResult struct {

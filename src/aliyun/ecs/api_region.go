@@ -1,9 +1,10 @@
+// API on Region
+
 package ecs
 
 import (
 )
 
-/* API on Region */
 // Get `Region` list
 type DescribeRegionsArgs struct {
 }
