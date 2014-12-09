@@ -7,12 +7,19 @@ import (
 
 // Create `Disk`
 type CreateDiskArgs struct {
-
+    RegionId    string
+    ZoneId      string
+    DiskName    string
+    Description string
+    Size        int
+    SnapshotId  string
+    ClientToken string
 }
 
 type CreateDiskResult struct {
     GlobalResult
-    // TODO
+
+    DiskId      string `json:"DiskId"`
 }
 
 func (self *Client) CreateDisk(args *CreateDiskArgs) (result *CreateDiskResult, errorResult *ErrorResult) {
@@ -113,12 +120,14 @@ func (self *Client) DescribeDisks(args *DescribeDisksArgs) (result *DescribeDisk
 
 // Attach `Disk`
 type AttachDiskArgs struct {
-
+    InstanceId          string
+    DiskId              string
+    Device              string
+    DeleteWithInstance  string
 }
 
 type AttachDiskResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) AttachDisk(args *AttachDiskArgs) (result *AttachDiskResult, errorResult *ErrorResult) {
@@ -132,12 +141,12 @@ func (self *Client) AttachDisk(args *AttachDiskArgs) (result *AttachDiskResult, 
 
 // Detach `Disk`
 type DetachDiskArgs struct {
-
+    InstanceId  string
+    DiskId      string
 }
 
 type DetachDiskResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) DetachDisk(args *DetachDiskArgs) (result *DetachDiskResult, errorResult *ErrorResult) {
@@ -151,12 +160,14 @@ func (self *Client) DetachDisk(args *DetachDiskArgs) (result *DetachDiskResult, 
 
 // Modify `Disk` Attribute
 type ModifyDiskAttributeArgs struct {
-
+    DiskId              string
+    DiskName            string
+    Description         string
+    DeleteWithInstance  string
 }
 
 type ModifyDiskAttributeResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) ModifyDiskAttribute(args *ModifyDiskAttributeArgs) (result *ModifyDiskAttributeResult, errorResult *ErrorResult) {
@@ -170,12 +181,11 @@ func (self *Client) ModifyDiskAttribute(args *ModifyDiskAttributeArgs) (result *
 
 // Delete `Disk`
 type DeleteDiskArgs struct {
-
+    DiskId  string
 }
 
 type DeleteDiskResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) DeleteDisk(args *DeleteDiskArgs) (result *DeleteDiskResult, errorResult *ErrorResult) {
@@ -189,12 +199,11 @@ func (self *Client) DeleteDisk(args *DeleteDiskArgs) (result *DeleteDiskResult, 
 
 // ReInit `Disk`
 type ReInitDiskArgs struct {
-
+    DiskId  string
 }
 
 type ReInitDiskResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) ReInitDisk(args *ReInitDiskArgs) (result *ReInitDiskResult, errorResult *ErrorResult) {
@@ -208,12 +217,12 @@ func (self *Client) ReInitDisk(args *ReInitDiskArgs) (result *ReInitDiskResult, 
 
 // Reset `Disk`
 type ResetDiskArgs struct {
-
+    DiskId      string
+    SnapshotId  string
 }
 
 type ResetDiskResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) ResetDisk(args *ResetDiskArgs) (result *ResetDiskResult, errorResult *ErrorResult) {
@@ -227,12 +236,15 @@ func (self *Client) ResetDisk(args *ResetDiskArgs) (result *ResetDiskResult, err
 
 // Replace `SystemDisk`
 type ReplaceSystemDiskArgs struct {
-
+    InstanceId  string
+    ImageId     string
+    ClientToken string
 }
 
 type ReplaceSystemDiskResult struct {
     GlobalResult
-    // TODO
+
+    DiskId      string `json:"DiskId"`
 }
 
 func (self *Client) ReplaceSystemDisk(args *ReplaceSystemDiskArgs) (result *ReplaceSystemDiskResult, errorResult *ErrorResult) {
