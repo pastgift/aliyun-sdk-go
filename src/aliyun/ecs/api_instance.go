@@ -1,60 +1,81 @@
+// API on Instance
+
 package ecs
 
 import (
 )
 
-/* API on Instance */
 // Create `Instance`
-// TODO
+type CreateInstanceArgs struct {
+}
+
 type CreateInstanceResult struct {
     GlobalResult
-    //...
+    // TODO
 }
 
-func (self *Client) CreateInstance() (result *CreateInstanceResult, errorResult *ErrorResult) {
+func (self *Client) CreateInstance(args *CreateInstanceArgs) (result *CreateInstanceResult, errorResult *ErrorResult) {
     res := new(CreateInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("CreateInstance", args, res)
+
+    return res, errRes
 }
+
+/**************************************************/
 
 // Start `Instance`
-// TODO
+type StartInstanceArgs struct {
+}
+
 type StartInstanceResult struct {
     GlobalResult
-    //...
+    // TODO
 }
 
-func (self *Client) StartInstance() (result *StartInstanceResult, errorResult *ErrorResult) {
+func (self *Client) StartInstance(args *StartInstanceArgs) (result *StartInstanceResult, errorResult *ErrorResult) {
     res := new(StartInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("StartInstance", args, res)
+
+    return res, errRes
 }
+
+/**************************************************/
 
 // Stop `Instance`
-// TODO
+type StopInstanceArgs struct {
+}
+
 type StopInstanceResult struct {
     GlobalResult
-    //...
+    // TODO
 }
 
-func (self *Client) StopInstance() (result *StopInstanceResult, errorResult *ErrorResult) {
+func (self *Client) StopInstance(args *StopInstanceArgs) (result *StopInstanceResult, errorResult *ErrorResult) {
     res := new(StopInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("StopInstance", args, res)
+
+    return res, errRes
 }
+
+/**************************************************/
 
 // Reboot `Instance`
-// TODO
-type RebootInstanceResult struct {
-    GlobalResult
-    //...
+type RebootInstanceArgs struct {
 }
 
-func (self *Client) RebootInstance() (result *RebootInstanceResult, errorResult *ErrorResult) {
-    res := new(RebootInstanceResult)
-    //...
-    return res, nil
+type RebootInstanceResult struct {
+    GlobalResult
+    // TODO
 }
+
+func (self *Client) RebootInstance(args *RebootInstanceArgs) (result *RebootInstanceResult, errorResult *ErrorResult) {
+    res := new(RebootInstanceResult)
+    errRes := self.CallAPI("RebootInstance", args, res)
+
+    return res, errRes
+}
+
+/**************************************************/
 
 // Modify `Instance` attribute
 type ModifyInstanceAttributeArgs struct {
@@ -76,6 +97,8 @@ func (self *Client) ModifyInstanceAttribute(args *ModifyInstanceAttributeArgs) (
     return res, errRes
 }
 
+/**************************************************/
+
 // Describe `Instance` status
 type DescribeInstanceStatusArgs struct {
     RegionId    string
@@ -84,18 +107,22 @@ type DescribeInstanceStatusArgs struct {
     PageSize    string
 }
 
+type InstanceStatusST struct {
+    InstanceId          string              `json:"InstanceId"`
+    Status              string              `json:"Status"`
+}
+
+type InstanceStatusesST struct {
+    InstanceStatus      []InstanceStatusST  `json:InstanceStatus`
+}
+
 type DescribeInstanceStatusResult struct {
     GlobalResult
 
-    TotalCount          int `json:"TotalCount"`
-    PageNumber          int `json:"PageNumber"`
-    PageSize            int `json:"PageSize"`
-    InstanceStatuses    struct {
-        InstanceStatus      []struct {
-            InstanceId          string  `json:"InstanceId"`
-            Status              string  `json:"Status"`
-        }                   `json:InstanceStatus`
-    }                       `json:"InstanceStatuses"`
+    TotalCount          int                 `json:"TotalCount"`
+    PageNumber          int                 `json:"PageNumber"`
+    PageSize            int                 `json:"PageSize"`
+    InstanceStatuses    InstanceStatusesST  `json:"InstanceStatuses"`
 }
 
 func (self *Client) DescribeInstanceStatus(args *DescribeInstanceStatusArgs) (result *DescribeInstanceStatusResult, errorResult *ErrorResult) {
@@ -105,42 +132,53 @@ func (self *Client) DescribeInstanceStatus(args *DescribeInstanceStatusArgs) (re
     return res, errRes
 }
 
+/**************************************************/
+
 // Describe `Instance` attribute
 type DescribeInstanceAttributeArgs struct {
     InstanceId string
 }
 
+type InnerIpAddressST struct {
+    IpAddress               []string            `json:"IpAddress"`
+}
+
+// Defined in api_disk.go
+//type OperationLocksST struct {
+//    OperationLock           []string            `json:"OperationLock"`
+//}
+
+type PublicIpAddressST struct {
+    IpAddress               []string            `json:"IpAddress"`
+}
+
+type SecurityGroupIdsST struct {
+    SecurityGroupId         []string            `json:"SecurityGroupId"`
+}
+
 type DescribeInstanceAttributeResult struct {
     GlobalResult
 
-    ClusterId               string  `json:"ClusterId"`
-    CreationTime            string  `json:"CreationTime"`
-    Description             string  `json:"Description"`
-    HostName                string  `json:"HostName"`
-    ImageId                 string  `json:"ImageId"`
-    InnerIpAddress          struct {
-        IpAddress               []string    `json:"IpAddress"`
-    }                               `json:"InnerIpAddress"`
-    InstanceId              string  `json:"InstanceId"`
-    InstanceName            string  `json:"InstanceName"`
-    InstanceType            string  `json:"InstanceType"`
-    InternetChargeType      string  `json:"InternetChargeType"`
-    InternetMaxBandwidthIn  int     `json:"InternetMaxBandwidthIn"`
-    InternetMaxBandwidthOut int     `json:"InternetMaxBandwidthOut"`
-    OperationLocks          struct {
-        OperationLock           []string    `json:"OperationLock"`
-    }                               `json:"OperationLocks"`
-    PublicIpAddress         struct {
-        IpAddress               []string    `json:"IpAddress"`
-    }                               `json:"PublicIpAddress"`
-    RegionId                string  `json:"RegionId"`
-    SecurityGroupIds        struct {
-        SecurityGroupId         []string    `json:"SecurityGroupId"`
-    }                               `json:"SecurityGroupIds"`
-    SerialNumber            string  `json:"SerialNumber"`
-    Status                  string  `json:"Status"`
-    VlanId                  string  `json:"VlanId"`
-    ZoneId                  string  `json:"ZoneId"`
+    ClusterId               string              `json:"ClusterId"`
+    CreationTime            string              `json:"CreationTime"`
+    Description             string              `json:"Description"`
+    HostName                string              `json:"HostName"`
+    ImageId                 string              `json:"ImageId"`
+    InnerIpAddress          InnerIpAddressST    `json:"InnerIpAddress"`
+    InstanceId              string              `json:"InstanceId"`
+    InstanceName            string              `json:"InstanceName"`
+    InstanceType            string              `json:"InstanceType"`
+    InternetChargeType      string              `json:"InternetChargeType"`
+    InternetMaxBandwidthIn  int                 `json:"InternetMaxBandwidthIn"`
+    InternetMaxBandwidthOut int                 `json:"InternetMaxBandwidthOut"`
+    OperationLocks          OperationLocksST    `json:"OperationLocks"`
+    PublicIpAddress         PublicIpAddressST   `json:"PublicIpAddress"`
+    RegionId                string              `json:"RegionId"`
+    SecurityGroupIds        SecurityGroupIdsST  `json:"SecurityGroupIds"`
+    SerialNumber            string              `json:"SerialNumber"`
+    Status                  string              `json:"Status"`
+    VlanId                  string              `json:"VlanId"`
+    ZoneId                  string              `json:"ZoneId"`
 }
 
 func (self *Client) DescribeInstanceAttribute(args *DescribeInstanceAttributeArgs ) (result *DescribeInstanceAttributeResult, errorResult *ErrorResult) {
@@ -150,41 +188,56 @@ func (self *Client) DescribeInstanceAttribute(args *DescribeInstanceAttributeArg
     return res, errRes
 }
 
+/**************************************************/
+
 // Delete `Instance`
-// TODO
+type DeleteInstanceArgs struct {
+}
+
 type DeleteInstanceResult struct {
     GlobalResult
-    //...
+    // TODO
 }
 
-func (self *Client) DeleteInstance() (result *DeleteInstanceResult, errorResult *ErrorResult) {
+func (self *Client) DeleteInstance(args *DeleteInstanceArgs) (result *DeleteInstanceResult, errorResult *ErrorResult) {
     res := new(DeleteInstanceResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("DeleteInstance", args, res)
+
+    return res, errRes
 }
+
+/**************************************************/
 
 // Join `SecurityGroup`
-// TODO
+type JoinSecurityGroupArgs struct {
+}
+
 type JoinSecurityGroupResult struct {
     GlobalResult
-    //...
+    // TODO
 }
 
-func (self *Client) JoinSecurityGroup() (result *JoinSecurityGroupResult, errorResult *ErrorResult) {
+func (self *Client) JoinSecurityGroup(args *JoinSecurityGroupArgs) (result *JoinSecurityGroupResult, errorResult *ErrorResult) {
     res := new(JoinSecurityGroupResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("JoinSecurityGroup", args, res)
+
+    return res, errRes
 }
+
+/**************************************************/
 
 // Leave `SecurityGroup`
-// TODO
-type LeaveSecurityGroupResult struct {
-    GlobalResult
-    //...
+type LeaveSecurityGroupArgs struct {
 }
 
-func (self *Client) LeaveSecurityGroup() (result *LeaveSecurityGroupResult, errorResult *ErrorResult) {
+type LeaveSecurityGroupResult struct {
+    GlobalResult
+    // TODO
+}
+
+func (self *Client) LeaveSecurityGroup(args *LeaveSecurityGroupArgs) (result *LeaveSecurityGroupResult, errorResult *ErrorResult) {
     res := new(LeaveSecurityGroupResult)
-    //...
-    return res, nil
+    errRes := self.CallAPI("LeaveSecurityGroup", args, res)
+
+    return res, errRes
 }

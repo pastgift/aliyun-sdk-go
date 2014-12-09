@@ -10,13 +10,24 @@ import (
     "crypto/hmac"
 )
 
-func CreateTimestampString(layout string) (string) {
-    tmspStr := time.Now().UTC().Format(layout)
+const (
+    ECS_TMSP_LAYOUT  = "2006-01-02T15:04:05Z"
+)
+
+func CreateSpecifiedTimestampString(year, month, day, hour, min, sec int) string {
+    t := time.Date(year, time.Month(month), day, hour, min, sec, 0, time.UTC)
+    tmspStr := t.Format(ECS_TMSP_LAYOUT)
 
     return tmspStr
 }
 
-func CreateRandomString() (string) {
+func CreateTimestampString() string {
+    tmspStr := time.Now().UTC().Format(ECS_TMSP_LAYOUT)
+
+    return tmspStr
+}
+
+func CreateRandomString() string {
     rand.Seed(time.Now().UnixNano())
     randInt := rand.Int63()
     randStr := strconv.FormatInt(randInt, 36)
@@ -24,7 +35,7 @@ func CreateRandomString() (string) {
     return randStr
 }
 
-func ComputeSignature(stringToSignature string, accesskeySecret string) (signature string) {
+func CreateSignature(stringToSignature, accesskeySecret string) string {
     // Crypto by HMAC-SHA1
     hmacSha1 := hmac.New(sha1.New ,[]byte(accesskeySecret + "&"))
     hmacSha1.Write([]byte(stringToSignature))
@@ -36,10 +47,10 @@ func ComputeSignature(stringToSignature string, accesskeySecret string) (signatu
     return base64Sign
 }
 
-func PercentReplace(s string) string {
-    s = strings.Replace(s, "+", "%20", -1)
-    s = strings.Replace(s, "*", "%2A", -1)
-    s = strings.Replace(s, "%7E", "~", -1)
+func PercentReplace(str string) string {
+    str = strings.Replace(str, "+", "%20", -1)
+    str = strings.Replace(str, "*", "%2A", -1)
+    str = strings.Replace(str, "%7E", "~", -1)
 
-    return s
+    return str
 }

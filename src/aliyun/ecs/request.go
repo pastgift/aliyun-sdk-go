@@ -18,8 +18,6 @@ const (
     REQ_VER          = "2014-05-26"
     REQ_SIGN_METHOD  = "HMAC-SHA1"
     REQ_SIGN_VER     = "1.0"
-
-    REQ_TMSP_LAYOUT  = "2006-01-02T15:04:05Z"
 )
 
 type Request struct {
@@ -28,7 +26,7 @@ type Request struct {
     Query        url.Values "Queries"
 }
 
-func NewRequest(action string) (newRequest *Request) {
+func NewRequest(action string) *Request {
     req := new(Request)
 
     // All ECS APIs are using GET method
@@ -63,9 +61,9 @@ func NewRequest(action string) (newRequest *Request) {
     return req
 }
 
-func (self *Request) SetArg(key string, value string) {
-    // For deleting key(value == ""), Getting value 
-    // from inexisting key also return an empty string.  
+func (self *Request) SetArg(key, value string) {
+    // For deleting key(value == ""), Getting value
+    // from inexisting key also return an empty string.
     if value == self.Query.Get(key) {
         return
     }
@@ -88,9 +86,9 @@ func (self *Request) SetArgs(args interface{}) {
     }
 }
 
-func (self *Request) Sign(accesskeyId string, accesskeySecret string) {
+func (self *Request) Sign(accesskeyId, accesskeySecret string) {
     // Each request need a new `Timestamp` and a new `SignatureNonce`
-    self.SetArg("Timestamp",           util.CreateTimestampString(REQ_TMSP_LAYOUT))
+    self.SetArg("Timestamp",           util.CreateTimestampString())
     self.SetArg("SignatureNonce",      util.CreateRandomString())
 
     self.SetArg("SignatureMethod",     REQ_SIGN_METHOD)
@@ -103,11 +101,11 @@ func (self *Request) Sign(accesskeyId string, accesskeySecret string) {
     q = url.QueryEscape(q)
     q = util.PercentReplace(q)
 
-    // stringToSign = 
-    //    "GET" + "&" + 
+    // stringToSign =
+    //    "GET" + "&" +
     //    url.QueryEscape("/") + "&" + q
     stringToSign := "GET&%2F&" + q
 
-    sign := util.ComputeSignature(stringToSign, accesskeySecret)
+    sign := util.CreateSignature(stringToSign, accesskeySecret)
     self.SetArg("Signature", sign)
 }

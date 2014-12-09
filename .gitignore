@@ -26,3 +26,4 @@ _testmain.go
 # Additional
 .DS_Store
 _*.txt
+*.swp

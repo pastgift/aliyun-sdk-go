@@ -1,3 +1,5 @@
+// Common functions for ECS
+
 package ecs
 
 import (
