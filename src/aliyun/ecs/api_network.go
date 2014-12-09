@@ -12,7 +12,7 @@ type AllocatePublicIpAddressArgs struct {
 
 type AllocatePublicIpAddressResult struct {
     GlobalResult
-    
+
     IpAddress   string  `json:"IpAddress"`
 }
 

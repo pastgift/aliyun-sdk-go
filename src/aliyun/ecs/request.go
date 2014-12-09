@@ -62,8 +62,8 @@ func NewRequest(action string) *Request {
 }
 
 func (self *Request) SetArg(key, value string) {
-    // For deleting key(value == ""), Getting value 
-    // from inexisting key also return an empty string.  
+    // For deleting key(value == ""), Getting value
+    // from inexisting key also return an empty string.
     if value == self.Query.Get(key) {
         return
     }
@@ -101,8 +101,8 @@ func (self *Request) Sign(accesskeyId, accesskeySecret string) {
     q = url.QueryEscape(q)
     q = util.PercentReplace(q)
 
-    // stringToSign = 
-    //    "GET" + "&" + 
+    // stringToSign =
+    //    "GET" + "&" +
     //    url.QueryEscape("/") + "&" + q
     stringToSign := "GET&%2F&" + q
 

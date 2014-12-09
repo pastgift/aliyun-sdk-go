@@ -1,4 +1,4 @@
-// API on Snapshot 
+// API on Snapshot
 
 package ecs
 
@@ -22,7 +22,7 @@ func (self *Client) CreateSnapshot(args *CreateSnapshotArgs) (result *CreateSnap
     return res, errRes
 }
 
-
+/**************************************************/
 
 // Delete `Snapshot`
 type DeleteSnapshotArgs struct {
@@ -41,6 +41,8 @@ func (self *Client) DeleteSnapshot(args *DeleteSnapshotArgs) (result *DeleteSnap
     return res, errRes
 }
 
+/**************************************************/
+
 // Describe `Snapshot`s
 type DescribeSnapshotsArgs struct {
 
@@ -57,6 +59,8 @@ func (self *Client) DescribeSnapshots(args *DescribeSnapshotsArgs) (result *Desc
 
     return res, errRes
 }
+
+/**************************************************/
 
 // Modify `AutoSnapshot` Policy
 type ModifyAutoSnapshotPolicyArgs struct {
@@ -75,6 +79,7 @@ func (self *Client) ModifyAutoSnapshotPolicy(args *ModifyAutoSnapshotPolicyArgs)
     return res, errRes
 }
 
+/**************************************************/
 
 // Describe `AutoSnapshot` Policy
 type DescribeAutoSnapshotPolicyArgs struct {

@@ -6,10 +6,12 @@ import (
     "io/ioutil"
 
     "aliyun/ecs"
+    "aliyun/util"
 )
 
 func main() {
     log.Println("----- Test Start -----")
+    log.Println(util.CreateSpecifiedTimestampString(2014, 01, 02, 03, 04, 05))
 
     // Get AccessKeyId and AccessKeySecret
     f, err := ioutil.ReadFile("src/_key.txt")

@@ -22,6 +22,8 @@ func (self *Client) CreateSecurityGroup(args *CreateSecurityGroupArgs) (result *
     return res, errRes
 }
 
+/**************************************************/
+
 // Authorize `SecurityGroup`
 type AuthorizeSecurityGroupArgs struct {
 
@@ -38,6 +40,8 @@ func (self *Client) AuthorizeSecurityGroup(args *AuthorizeSecurityGroupArgs) (re
 
     return res, errRes
 }
+
+/**************************************************/
 
 // Describe `SecurityGroup` Attribute
 type DescribeSecurityGroupAttributeArgs struct {
@@ -56,6 +60,8 @@ func (self *Client) DescribeSecurityGroupAttribute(args *DescribeSecurityGroupAt
     return res, errRes
 }
 
+/**************************************************/
+
 // Describe `SecurityGroups`
 type DescribeSecurityGroupsArgs struct {
 
@@ -73,6 +79,8 @@ func (self *Client) DescribeSecurityGroups(args *DescribeSecurityGroupsArgs) (re
     return res, errRes
 }
 
+/**************************************************/
+
 // Revoke `SecurityGroup`
 type RevokeSecurityGroupArgs struct {
 
@@ -89,6 +97,8 @@ func (self *Client) RevokeSecurityGroup(args *RevokeSecurityGroupArgs) (result *
 
     return res, errRes
 }
+
+/**************************************************/
 
 // Delete `SecurityGroup`
 type DeleteSecurityGroupArgs struct {

@@ -10,16 +10,20 @@ type DescribeInstanceTypesArgs struct {
 
 }
 
+type InstanceTypeST struct {
+    InstanceTypeId  string              `json:"InstanceTypeId"`
+    CpuCoreCount    int                 `json:"CpuCoreCount"`
+    MemorySize      float64             `json:"MemorySize"`
+}
+
+type InstanceTypesST struct {
+    InstanceType    []InstanceTypeST    `json:"InstanceType"`
+}
+
 type DescribeInstanceTypesResult struct {
     GlobalResult
-    
-    InstanceTypes   struct {
-        InstanceType    []struct {
-            InstanceTypeId  string      `json:"InstanceTypeId"`
-            CpuCoreCount    int         `json:"InstanceTypeId"`
-            MemorySize      float       `json:"InstanceTypeId"`
-        }                           `json:"InstanceType"`
-    }                           `json:"InstanceTypes"`
+
+    InstanceTypes   InstanceTypesST     `json:"InstanceTypes"`
 }
 
 func (self *Client) DescribeInstanceTypes(args *DescribeInstanceTypesArgs) (result *DescribeInstanceTypesResult, errorResult *ErrorResult) {

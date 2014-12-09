@@ -1,4 +1,4 @@
-// API on Disk 
+// API on Disk
 
 package ecs
 
@@ -22,26 +22,28 @@ func (self *Client) CreateDisk(args *CreateDiskArgs) (result *CreateDiskResult, 
     return res, errRes
 }
 
+/**************************************************/
+
 // Describe `Disk`s
 const (
-    DISK_TYPE_ALL       = "all"
-    DISK_TYPE_SYSTEM    = "system"
-    DISK_TYPE_DATA      = "data"
+    DISK_TYPE_ALL                   = "all"
+    DISK_TYPE_SYSTEM                = "system"
+    DISK_TYPE_DATA                  = "data"
 
-    DISK_CAT_ALL        = "all"
-    DISK_CAT_CLOUD      = "cloud"
-    DISK_CAT_EPHEMERAL  = "ephemeral"
-    
-    DISK_STATUS_IN_USE      = "In_use"
-    DISK_STATUS_AVAILABLE   = "Available"
-    DISK_STATUS_ATTACHING   = "Attaching"
-    DISK_STATUS_DETACHING   = "Detaching"
-    DISK_STATUS_CREATING    = "Creating"
-    DISK_STATUS_REINITING   = "ReIniting"
-    DISK_STATUS_ALL         = "All"
-    
-    DISK_PORTABLE_TRUE  = "True"
-    DISK_PORTABLE_FALSE = "False"
+    DISK_CAT_ALL                    = "all"
+    DISK_CAT_CLOUD                  = "cloud"
+    DISK_CAT_EPHEMERAL              = "ephemeral"
+
+    DISK_STATUS_IN_USE              = "In_use"
+    DISK_STATUS_AVAILABLE           = "Available"
+    DISK_STATUS_ATTACHING           = "Attaching"
+    DISK_STATUS_DETACHING           = "Detaching"
+    DISK_STATUS_CREATING            = "Creating"
+    DISK_STATUS_REINITING           = "ReIniting"
+    DISK_STATUS_ALL                 = "All"
+
+    DISK_PORTABLE_TRUE              = "True"
+    DISK_PORTABLE_FALSE             = "False"
 
     DISK_DELETE_WITH_INSTANCE_TRUE  = "True"
     DISK_DELETE_WITH_INSTANCE_FALSE = "False"
@@ -66,32 +68,38 @@ type DescribeDisksArgs struct {
     PageSize            int
 }
 
+type OperationLocksST struct {
+    OperationLock       []string            `json:"OperationLock"`
+}
+
+type DiskST struct {
+    AttachedTime        string              `json:"AttachedTime"`
+    Category            string              `json:"Category"`
+    CreationTime        string              `json:"CreationTime"`
+    DeleteAutoSnapshot  string              `json:"DeleteAutoSnapshot"`
+    DeleteWithInstance  string              `json:"DeleteWithInstance"`
+    Description         string              `json:"Description"`
+    DetachedTime        string              `json:"DetachedTime"`
+    Device              string              `json:"Device"`
+    DiskId              string              `json:"DiskId"`
+    DiskName            string              `json:"DiskName"`
+    ImageId             string              `json:"ImageId"`
+    InstanceId          string              `json:"InstanceId"`
+    OperationLocks      OperationLocksST    `json:"OperationLocks"`
+}
+
+type DisksST struct {
+    Disk                []DiskST            `json:"Disk"`
+}
+
 type DescribeDisksResult struct {
     GlobalResult
 
-    RegionId    string  `json:"RegionId"`
-    TotalCount  int     `json:"TotalCount"`
-    PageNumber  int     `json:"PageNumber"`
-    PageSize    int     `json:"PageSize"`
-    Disks       struct {
-        Disk        []struct {
-            AttachedTime        string  `json:"AttachedTime"`
-            Category            string  `json:"Category"`
-            CreationTime        string  `json:"CreationTime"`
-            DeleteAutoSnapshot  string  `json:"DeleteAutoSnapshot"`
-            DeleteWithInstance  string  `json:"DeleteWithInstance"`
-            Description         string  `json:"Description"`
-            DetachedTime        string  `json:"DetachedTime"`
-            Device              string  `json:"Device"`
-            DiskId              string  `json:"DiskId"`
-            DiskName            string  `json:"DiskName"`
-            ImageId             string  `json:"ImageId"`
-            InstanceId          string  `json:"InstanceId"`
-            OperationLocks      struct {
-                OperationLock       []string    `json:"OperationLock"`    
-            }                           `json:"OperationLocks"`
-        }                   `json:"Disk"`
-    }                   `json:"Disks"`
+    RegionId            string              `json:"RegionId"`
+    TotalCount          int                 `json:"TotalCount"`
+    PageNumber          int                 `json:"PageNumber"`
+    PageSize            int                 `json:"PageSize"`
+    Disks               DisksST             `json:"Disks"`
 }
 
 func (self *Client) DescribeDisks(args *DescribeDisksArgs) (result *DescribeDisksResult, errorResult *ErrorResult) {
@@ -100,6 +108,8 @@ func (self *Client) DescribeDisks(args *DescribeDisksArgs) (result *DescribeDisk
 
     return res, errRes
 }
+
+/**************************************************/
 
 // Attach `Disk`
 type AttachDiskArgs struct {
@@ -118,6 +128,8 @@ func (self *Client) AttachDisk(args *AttachDiskArgs) (result *AttachDiskResult, 
     return res, errRes
 }
 
+/**************************************************/
+
 // Detach `Disk`
 type DetachDiskArgs struct {
 
@@ -134,6 +146,8 @@ func (self *Client) DetachDisk(args *DetachDiskArgs) (result *DetachDiskResult, 
 
     return res, errRes
 }
+
+/**************************************************/
 
 // Modify `Disk` Attribute
 type ModifyDiskAttributeArgs struct {
@@ -152,6 +166,8 @@ func (self *Client) ModifyDiskAttribute(args *ModifyDiskAttributeArgs) (result *
     return res, errRes
 }
 
+/**************************************************/
+
 // Delete `Disk`
 type DeleteDiskArgs struct {
 
@@ -168,6 +184,8 @@ func (self *Client) DeleteDisk(args *DeleteDiskArgs) (result *DeleteDiskResult, 
 
     return res, errRes
 }
+
+/**************************************************/
 
 // ReInit `Disk`
 type ReInitDiskArgs struct {
@@ -186,6 +204,8 @@ func (self *Client) ReInitDisk(args *ReInitDiskArgs) (result *ReInitDiskResult, 
     return res, errRes
 }
 
+/**************************************************/
+
 // Reset `Disk`
 type ResetDiskArgs struct {
 
@@ -202,6 +222,8 @@ func (self *Client) ResetDisk(args *ResetDiskArgs) (result *ResetDiskResult, err
 
     return res, errRes
 }
+
+/**************************************************/
 
 // Replace `SystemDisk`
 type ReplaceSystemDiskArgs struct {

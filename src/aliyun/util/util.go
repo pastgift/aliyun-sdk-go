@@ -15,7 +15,7 @@ const (
 )
 
 func CreateSpecifiedTimestampString(year, month, day, hour, min, sec int) string {
-    t := time.Date(year, month, day, hour, min, sec, 0, time.UTC)
+    t := time.Date(year, time.Month(month), day, hour, min, sec, 0, time.UTC)
     tmspStr := t.Format(ECS_TMSP_LAYOUT)
 
     return tmspStr

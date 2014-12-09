@@ -22,6 +22,8 @@ func (self *Client) DescribeImages(args *DescribeImagesArgs) (result *DescribeIm
     return res, errRes
 }
 
+/**************************************************/
+
 // Create `Image`
 type CreateImageArgs struct {
 
@@ -38,6 +40,8 @@ func (self *Client) CreateImage(args *CreateImageArgs) (result *CreateImageResul
 
     return res, errRes
 }
+
+/**************************************************/
 
 // DeleteImage
 type DeleteImageArgs struct {
