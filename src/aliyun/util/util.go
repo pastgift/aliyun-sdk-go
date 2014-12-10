@@ -11,7 +11,7 @@ import (
 )
 
 const (
-    ECS_TMSP_LAYOUT  = "2006-01-02T15:04:05Z"
+    ECS_TMSP_LAYOUT = "2006-01-02T15:04:05Z"
 )
 
 func CreateSpecifiedTimestampString(year, month, day, hour, min, sec int) string {

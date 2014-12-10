@@ -76,13 +76,24 @@ func (self *Request) SetArg(key, value string) {
 }
 
 func (self *Request) SetArgs(args interface{}) {
-    // Since args from user is a pointer,
-    // need reflect.Indirect to get it's value.
+    // Since args from user is a pointer-type,
+    // reflect.Indirect() is needed for getting it's value.
     v := reflect.Indirect(reflect.ValueOf(args))
     t := v.Type()
 
     for i := 0; i < v.NumField(); i++ {
-       self.SetArg(t.Field(i).Name, v.Field(i).String())
+        // Usually, the argument name is equal to the field name of args-struct.
+        // Since some of name of arguments contains symbols like `.` `-` etc,
+        // which can not be used in names of fields, the symbols will be replaced
+        // `_`, and an additional tag with key `ArgName` should be setted for
+        // getting valid argument name.
+        arg_k := t.Field(i).Tag.Get("ArgName")
+        if arg_k == "" {
+            arg_k = t.Field(i).Name
+        }
+        arg_v := v.Field(i).String()
+
+        self.SetArg(arg_k, arg_v)
     }
 }
 

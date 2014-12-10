@@ -7,21 +7,22 @@ import (
 
 // Get `Region` list
 type DescribeRegionsArgs struct {
+    // NO ARGUMENT NEEDED
 }
 
-type RegionST struct {
-    RegionId    string      `json:"RegionID"`
-    LocalName   string      `json:"LocalName"`
+type RegionType struct {
+    RegionId    string          `json:"RegionID"`
+    LocalName   string          `json:"LocalName"`
 }
 
-type RegionsST struct {
-    Region      []RegionST  `json:"Region"`
+type RegionType_Array struct {
+    Region      []RegionType    `json:"Region"`
 }
 
 type DescribeRegionsResult struct {
     GlobalResult
 
-    Regions     RegionsST   `json:"Regions"`
+    Regions     RegionType_Array `json:"Regions"`
 }
 
 func (self *Client) DescribeRegions() (result *DescribeRegionsResult, errorResult *ErrorResult) {
@@ -39,29 +40,29 @@ type DescribeZonesArgs struct {
     RegionId                    string
 }
 
-type AvailableDiskCategoriesST struct {
-    DiskCategories              []string                    `json:"DiskCategories"`
+type AvailableResourceCreationType struct {
+    ResourceTypes               []string                        `json:"ResourceTypes"`
 }
 
-type AvailableResourceCreationST struct {
-    ResourceTypes               []string                    `json:"ResourceTypes"`
+type AvailableDiskCategoriesType struct {
+    DiskCategories              []string                        `json:"DiskCategories"`
 }
 
-type ZoneST struct {
-    ZoneId                      string                      `json:"ZoneId"`
-    LocalName                   string                      `json:"LocalName"`
-    AvailableDiskCategories     AvailableDiskCategoriesST   `json:"AvailableDiskCategories"`
-    AvailableResourceCreation   AvailableResourceCreationST `json:"AvailableResourceCreation"`
+type ZoneType struct {
+    ZoneId                      string                          `json:"ZoneId"`
+    LocalName                   string                          `json:"LocalName"`
+    AvailableResourceCreation   AvailableResourceCreationType   `json:"AvailableResourceCreation"`
+    AvailableDiskCategories     AvailableDiskCategoriesType     `json:"AvailableDiskCategories"`
 }
 
-type ZonesST struct {
-    Zone                        []ZoneST                    `json:"Zone"`
+type ZoneType_Array struct {
+    Zone                        []ZoneType                      `json:"Zone"`
 }
 
 type DescribeZonesResult struct {
     GlobalResult
 
-    Zones                       ZonesST                     `json:"Zones"`
+    Zones                       ZoneType_Array                 `json:"Zones"`
 }
 
 func (self *Client) DescribeZones(args *DescribeZonesArgs) (result *DescribeZonesResult, errorResult *ErrorResult) {
