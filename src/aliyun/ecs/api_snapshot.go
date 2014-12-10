@@ -56,20 +56,20 @@ type DescribeSnapshotsArgs struct {
     PageSize    int
 }
 
-type SnapshotResourceST struct {
-    CreationTime        string                  `json:"CreationTime"`
-    Description         string                  `json:"Description"`
-    ProductCode         string                  `json:"ProductCode"`
-    Progress            string                  `json:"Progress"`
+type SnapshotType struct {
     SnapshotId          string                  `json:"SnapshotId"`
     SnapshotName        string                  `json:"SnapshotName"`
+    Description         string                  `json:"Description"`
+    Progress            string                  `json:"Progress"`
     SourceDiskId        string                  `json:"SourceDiskId"`
-    SourceDiskSize      string                  `json:"SourceDiskSize"`
+    SourceDiskSize      int                     `json:"SourceDiskSize"`
     SourceDiskType      string                  `json:"SourceDiskType"`
+    ProductCode         string                  `json:"ProductCode"`
+    CreationTime        string                  `json:"CreationTime"`
 }
 
-type SnapshotsST struct {
-    SnapshotResource    []SnapshotResourceST    `json:"SnapshotResource"`
+type SnapshotType_Array struct {
+    SnapshotResource    []SnapshotType          `json:"SnapshotResource"`
 }
 
 type DescribeSnapshotsResult struct {
@@ -79,7 +79,7 @@ type DescribeSnapshotsResult struct {
     TotalCount          int                     `json:"TotalCount"`
     PageNumber          int                     `json:"PageNumber"`
     PageSize            int                     `json:"PageSize"`
-    Snapshots           SnapshotsST             `json:"Snapshots"`
+    Snapshots           SnapshotType_Array      `json:"Snapshots"`
 }
 
 func (self *Client) DescribeSnapshots(args *DescribeSnapshotsArgs) (result *DescribeSnapshotsResult, errorResult *ErrorResult) {
@@ -121,27 +121,27 @@ type DescribeAutoSnapshotPolicyArgs struct {
     // NO ARGUMENT NEEDED
 }
 
-type AutoSnapshotExcutionStatusST struct {
-    DataDiskExcutionStatus              string                          `json:"DataDiskExcutionStatus"`
-    SystemDiskExcutionStatus            string                          `json:"SystemDiskExcutionStatus"`
+type AutoSnapshotPolicyType struct {
+    SystemDiskPolicyEnabled             string                          `json:"SystemDiskPolicyEnabled"`
+    SystemDiskPolicyTimePeriod          int                             `json:"SystemDiskPolicyTimePeriod"`
+    SystemDiskPolicyRetentionDays       int                             `json:"SystemDiskPolicyRetentionDays"`
+    SystemDiskPolicyRetentionLastWeek   string                          `json:"SystemDiskPolicyRetentionLastWeek"`
+    DataDiskPolicyEnabled               string                          `json:"DataDiskPolicyEnabled"`
+    DataDiskPolicyTimePeriod            int                             `json:"DataDiskPolicyTimePeriod"`
+    DataDiskPolicyRetentionDays         int                             `json:"DataDiskPolicyRetentionDays"`
+    DataDiskPolicyRetentionLastWeek     string                          `json:"DataDiskPolicyRetentionLastWeek"`
 }
 
-type AutoSnapshotPolicyST struct {
-    DataDiskPolicyEnabled               string                          `json:"DataDiskPolicyEnabled"`
-    DataDiskPolicyRetentionDays         string                          `json:"DataDiskPolicyRetentionDays"`
-    DataDiskPolicyRetentionLastWeek     string                          `json:"DataDiskPolicyRetentionLastWeek"`
-    DataDiskPolicyTimePeriod            string                          `json:"DataDiskPolicyTimePeriod"`
-    SystemDiskPolicyEnabled             string                          `json:"SystemDiskPolicyEnabled"`
-    SystemDiskPolicyRetentionDays       string                          `json:"SystemDiskPolicyRetentionDays"`
-    SystemDiskPolicyRetentionLastWeek   string                          `json:"SystemDiskPolicyRetentionLastWeek"`
-    SystemDiskPolicyTimePeriod          string                          `json:"SystemDiskPolicyTimePeriod"`
+type AutoSnapshotExecutionStatusType struct {
+    SystemDiskExcutionStatus            string                          `json:"SystemDiskExcutionStatus"`
+    DataDiskExcutionStatus              string                          `json:"DataDiskExcutionStatus"`
 }
 
 type DescribeAutoSnapshotPolicyResult struct {
     GlobalResult
 
-    AutoSnapshotPolicy                  AutoSnapshotPolicyST            `json:"AutoSnapshotPolicy"`
-    AutoSnapshotExcutionStatus          AutoSnapshotExcutionStatusST    `json:"AutoSnapshotExcutionStatus"`
+    AutoSnapshotPolicy                  AutoSnapshotPolicyType          `json:"AutoSnapshotPolicy"`
+    AutoSnapshotExcutionStatus          AutoSnapshotExecutionStatusType `json:"AutoSnapshotExcutionStatus"`
 }
 
 func (self *Client) DescribeAutoSnapshotPolicy(args *DescribeAutoSnapshotPolicyArgs) (result *DescribeAutoSnapshotPolicyResult, errorResult *ErrorResult) {

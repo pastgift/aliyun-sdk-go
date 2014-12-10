@@ -75,28 +75,35 @@ type DescribeDisksArgs struct {
     PageSize            int
 }
 
-type OperationLocksST struct {
-    OperationLock       []string            `json:"OperationLock"`
-}
+//Note: Already defined in `api_instance.go`
+//type OperationLocksType struct {...}
 
-type DiskST struct {
-    AttachedTime        string              `json:"AttachedTime"`
-    Category            string              `json:"Category"`
-    CreationTime        string              `json:"CreationTime"`
-    DeleteAutoSnapshot  string              `json:"DeleteAutoSnapshot"`
-    DeleteWithInstance  string              `json:"DeleteWithInstance"`
-    Description         string              `json:"Description"`
-    DetachedTime        string              `json:"DetachedTime"`
-    Device              string              `json:"Device"`
+type DiskItemType struct {
     DiskId              string              `json:"DiskId"`
+    RegionId            string              `json:"RegionId"`
+    ZoneId              string              `json:"ZoneId"`
     DiskName            string              `json:"DiskName"`
+    Description         string              `json:"Description"`
+    Type                string              `json:"Type"`
+    Category            string              `json:"Category"`
+    Size                int                 `json:"Size"`
     ImageId             string              `json:"ImageId"`
+    SourceSnapshotId    string              `json:"SourceSnapshotId"`
+    ProductCode         string              `json:"ProductCode"`
+    Portable            string              `json:"Portable"`
+    Status              string              `json:"Status"`
+    OperationLocks      OperationLocksType  `json:"OperationLocks"`
     InstanceId          string              `json:"InstanceId"`
-    OperationLocks      OperationLocksST    `json:"OperationLocks"`
+    Device              string              `json:"Device"`
+    DeleteWithInstance  string              `json:"DeleteWithInstance"`
+    DeleteAutoSnapshot  string              `json:"DeleteAutoSnapshot"`
+    CreationTime        string              `json:"CreationTime"`
+    AttachedTime        string              `json:"AttachedTime"`
+    DetachedTime        string              `json:"DetachedTime"`   
 }
 
-type DisksST struct {
-    Disk                []DiskST            `json:"Disk"`
+type DiskSetType struct {
+    Disk                []DiskItemType      `json:"Disk"`
 }
 
 type DescribeDisksResult struct {
@@ -106,7 +113,7 @@ type DescribeDisksResult struct {
     TotalCount          int                 `json:"TotalCount"`
     PageNumber          int                 `json:"PageNumber"`
     PageSize            int                 `json:"PageSize"`
-    Disks               DisksST             `json:"Disks"`
+    Disks               DiskSetType         `json:"Disks"`
 }
 
 func (self *Client) DescribeDisks(args *DescribeDisksArgs) (result *DescribeDisksResult, errorResult *ErrorResult) {

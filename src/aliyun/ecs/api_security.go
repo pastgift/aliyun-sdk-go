@@ -59,25 +59,26 @@ type DescribeSecurityGroupAttributeArgs struct {
     NicType         string
 }
 
-type PermissionST struct {
+type PermissionType struct {
     IpProtocol      string          `json:"IpProtocol"`
     PortRange       string          `json:"PortRange"`
+    SourceCidrIp    string          `json:"SourceCidrIp"`
     SourceGroupId   string          `json:"SourceGroupId"`
     Policy          string          `json:"Policy"`
     NicType         string          `json:"NicType"`
 }
 
-type PermissionsST struct {
-    Permission      []PermissionST  `json:"Permission"`
+type PermissionSetType struct {
+    Permission      []PermissionType    `json:"Permission"`
 }
 
 type DescribeSecurityGroupAttributeResult struct {
     GlobalResult
 
-    SecurityGroupId string          `json:"SecurityGroupId"`
-    RegionId        string          `json:"RegionId"`
-    Description     string          `json:"Description"`
-    Permissions     PermissionsST   `json:"Permissions"`
+    SecurityGroupId string              `json:"SecurityGroupId"`
+    RegionId        string              `json:"RegionId"`
+    Description     string              `json:"Description"`
+    Permissions     PermissionSetType   `json:"Permissions"`
 }
 
 func (self *Client) DescribeSecurityGroupAttribute(args *DescribeSecurityGroupAttributeArgs) (result *DescribeSecurityGroupAttributeResult, errorResult *ErrorResult) {
@@ -96,23 +97,23 @@ type DescribeSecurityGroupsArgs struct {
     PageSize    int
 }
 
-type SecurityGroupST struct {
-    SecurityGroupId string              `json:"SecurityGroupId"`
-    Description     string              `json:"Description"`
+type SecurityGroupItemType struct {
+    SecurityGroupId string                  `json:"SecurityGroupId"`
+    Description     string                  `json:"Description"`
 }
 
-type SecurityGroupsST struct {
-    SecurityGroup   []SecurityGroupST   `json:"SecurityGroup"`
+type SecurityGroupSetType struct {
+    SecurityGroup   []SecurityGroupItemType `json:"SecurityGroup"`
 }
 
 type DescribeSecurityGroupsResult struct {
     GlobalResult
 
-    TotalCount      int                 `json:"TotalCount"`
-    PageNumber      int                 `json:"PageNumber"`
-    PageSize        int                 `json:"PageSize"`
-    RegionId        string              `json:"RegionId"`
-    SecurityGroups  SecurityGroupsST    `json:"SecurityGroups"`
+    TotalCount      int                     `json:"TotalCount"`
+    PageNumber      int                     `json:"PageNumber"`
+    PageSize        int                     `json:"PageSize"`
+    RegionId        string                  `json:"RegionId"`
+    SecurityGroups  SecurityGroupSetType    `json:"SecurityGroups"`
 }
 
 func (self *Client) DescribeSecurityGroups(args *DescribeSecurityGroupsArgs) (result *DescribeSecurityGroupsResult, errorResult *ErrorResult) {

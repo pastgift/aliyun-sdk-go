@@ -16,43 +16,44 @@ type DescribeImagesArgs struct {
     ImageOwnerAlias string
 }
 
-type DiskDeviceMappingST struct {
-    Device              string                  `json:"Device"`
-    Size                string                  `json:"Size"`
-    SnapshotId          string                  `json:"SnapshotId"`
+type DiskDeviceMapping_Type struct {
+    SnapshotId          string                      `json:"SnapshotId"`
+    //Note: According API doc, `Size` Field is string-type.
+    Size                int                         `json:"Size"`
+    Device              string                      `json:"Device"`
 }
 
-type DiskDeviceMappingsST struct {
-    DiskDeviceMapping   []DiskDeviceMappingST   `json:"DiskDeviceMapping"`
+type DiskDeviceMapping_Array struct {
+    DiskDeviceMapping   []DiskDeviceMapping_Type    `json:"DiskDeviceMapping"`
 }
 
-type ImageST struct {
-    Architecture        string                  `json:"Architecture"`
-    CreationTime        string                  `json:"CreationTime"`
-    Description         string                  `json:"Description"`
-    DiskDeviceMappings  DiskDeviceMappingsST    `json:"DiskDeviceMappings"`
-    ImageId             string                  `json:"ImageId"`
-    ImageName           string                  `json:"ImageName"`
-    ImageOwnerAlias     string                  `json:"ImageOwnerAlias"`
-    ImageVersion        string                  `json:"ImageVersion"`
-    IsSubscribed        string                  `json:"IsSubscribed"`
-    OSName              string                  `json:"OSName"`
-    ProductCode         string                  `json:"ProductCode"`
-    Size                string                  `json:"Size"`
+type ImageType struct {
+    ImageId             string                      `json:"ImageId"`
+    ImageVersion        string                      `json:"ImageVersion"`
+    Architecture        string                      `json:"Architecture"`
+    ImageName           string                      `json:"ImageName"`
+    Description         string                      `json:"Description"`
+    Size                int                         `json:"Size"`
+    ImageOwnerAlias     string                      `json:"ImageOwnerAlias"`
+    OSName              string                      `json:"OSName"`
+    DiskDeviceMappings  DiskDeviceMapping_Array     `json:"DiskDeviceMappings"`
+    ProductCode         string                      `json:"ProductCode"`
+    IsSubscribed        string                      `json:"IsSubscribed"`
+    CreationTime        string                      `json:"CreationTime"`
 }
 
-type ImagesST struct {
-    Image               []ImageST               `json:"Image"`
+type ImageType_Array {
+    Images              []ImageType                 `json:"Images"`
 }
 
 type DescribeImagesResult struct {
     GlobalResult
 
-    RegionId            string                  `json:"RegionId"`
-    TotalCount          int                     `json:"TotalCount"`
-    PageNumber          int                     `json:"PageNumber"`
-    PageSize            int                     `json:"PageSize"`
-    Images              ImagesST                `json:"Images"`
+    RegionId            string                      `json:"RegionId"`
+    TotalCount          int                         `json:"TotalCount"`
+    PageNumber          int                         `json:"PageNumber"`
+    PageSize            int                         `json:"PageSize"`
+    Images              ImageType_Array             `json:"Images"`
 }
 
 func (self *Client) DescribeImages(args *DescribeImagesArgs) (result *DescribeImagesResult, errorResult *ErrorResult) {
@@ -71,7 +72,7 @@ type CreateImageArgs struct {
     ImageName       string
     ImageVersion    string
     Description     string
-    ClientToken     strings
+    ClientToken     string
 }
 
 type CreateImageResult struct {

@@ -155,22 +155,22 @@ type DescribeInstanceStatusArgs struct {
     PageSize    string
 }
 
-type InstanceStatusST struct {
-    InstanceId          string              `json:"InstanceId"`
-    Status              string              `json:"Status"`
+type InstanceStatusItemType struct {
+    InstanceId          string                      `json:"InstanceId"`
+    Status              string                      `json:"Status"`
 }
 
-type InstanceStatusesST struct {
-    InstanceStatus      []InstanceStatusST  `json:InstanceStatus`
+type InstanceStatusSetType struct {
+    InstanceStatus      []InstanceStatusItemType    `json:InstanceStatus`
 }
 
 type DescribeInstanceStatusResult struct {
     GlobalResult
 
-    TotalCount          int                 `json:"TotalCount"`
-    PageNumber          int                 `json:"PageNumber"`
-    PageSize            int                 `json:"PageSize"`
-    InstanceStatuses    InstanceStatusesST  `json:"InstanceStatuses"`
+    TotalCount          int                         `json:"TotalCount"`
+    PageNumber          int                         `json:"PageNumber"`
+    PageSize            int                         `json:"PageSize"`
+    InstanceStatuses    InstanceStatusSetType       `json:"InstanceStatuses"`
 }
 
 func (self *Client) DescribeInstanceStatus(args *DescribeInstanceStatusArgs) (result *DescribeInstanceStatusResult, errorResult *ErrorResult) {
@@ -187,46 +187,47 @@ type DescribeInstanceAttributeArgs struct {
     InstanceId string
 }
 
-type InnerIpAddressST struct {
-    IpAddress               []string            `json:"IpAddress"`
+type OperationLocksType struct {
+    LockReason              string                      `json:"LockReason"`
 }
 
-// Defined in api_disk.go
-//type OperationLocksST struct {
-//    OperationLock           []string            `json:"OperationLock"`
-//}
-
-type PublicIpAddressST struct {
-    IpAddress               []string            `json:"IpAddress"`
+type OperationLocksType_Array struct {
+    OperationLock           []OperationLocksType        `json:"OperationLock"`
 }
 
-type SecurityGroupIdsST struct {
-    SecurityGroupId         []string            `json:"SecurityGroupId"`
+type SecurityGroupIdSetType struct {
+    SecurityGroupId         []string                    `json:"SecurityGroupId"`
+}
+
+type IpAddressSetType struct {
+    IpAddress               []string                    `json:"IpAddress"`
 }
 
 type DescribeInstanceAttributeResult struct {
     GlobalResult
 
-    ClusterId               string              `json:"ClusterId"`
-    CreationTime            string              `json:"CreationTime"`
-    Description             string              `json:"Description"`
-    HostName                string              `json:"HostName"`
-    ImageId                 string              `json:"ImageId"`
-    InnerIpAddress          InnerIpAddressST    `json:"InnerIpAddress"`
-    InstanceId              string              `json:"InstanceId"`
-    InstanceName            string              `json:"InstanceName"`
-    InstanceType            string              `json:"InstanceType"`
-    InternetChargeType      string              `json:"InternetChargeType"`
-    InternetMaxBandwidthIn  int                 `json:"InternetMaxBandwidthIn"`
-    InternetMaxBandwidthOut int                 `json:"InternetMaxBandwidthOut"`
-    OperationLocks          OperationLocksST    `json:"OperationLocks"`
-    PublicIpAddress         PublicIpAddressST   `json:"PublicIpAddress"`
-    RegionId                string              `json:"RegionId"`
-    SecurityGroupIds        SecurityGroupIdsST  `json:"SecurityGroupIds"`
-    SerialNumber            string              `json:"SerialNumber"`
-    Status                  string              `json:"Status"`
-    VlanId                  string              `json:"VlanId"`
-    ZoneId                  string              `json:"ZoneId"`
+    InstanceId              string                      `json:"InstanceId"`
+    InstanceName            string                      `json:"InstanceName"`
+    Description             string                      `json:"Description"`
+    ImageId                 string                      `json:"ImageId"`
+    RegionId                string                      `json:"RegionId"`
+    ZoneId                  string                      `json:"ZoneId"`
+    ClusterId               string                      `json:"ClusterId"`
+    InstanceType            string                      `json:"InstanceType"`
+    HostName                string                      `json:"HostName"`
+    Status                  string                      `json:"Status"`
+    OperationLocks          OperationLocksType_Array    `json:"OperationLocks"`
+    SecurityGroupIds        SecurityGroupIdSetType      `json:"SecurityGroupIds"`
+    PublicIpAddress         IpAddressSetType            `json:"PublicIpAddress"`
+    InnerIpAddress          IpAddressSetType            `json:"InnerIpAddress"`
+    InternetMaxBandwidthIn  int                         `json:"InternetMaxBandwidthIn"`
+    InternetMaxBandwidthOut int                         `json:"InternetMaxBandwidthOut"`
+    InternetChargeType      string                      `json:"InternetChargeType"`
+    CreationTime            string                      `json:"CreationTime"`
+
+    //Note: Maybe API doc miss
+    //VlanId                  string              `json:"VlanId"`
+    //SerialNumber            string              `json:"SerialNumber"`   
 }
 
 func (self *Client) DescribeInstanceAttribute(args *DescribeInstanceAttributeArgs ) (result *DescribeInstanceAttributeResult, errorResult *ErrorResult) {
