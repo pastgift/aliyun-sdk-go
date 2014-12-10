@@ -19,9 +19,9 @@ type CreateInstanceArgs struct {
     InternetMaxBandwidthOut int
     HostName                string
     Password                string
-    SystemDisk.Category     string
-    SystemDisk.DiskName     string
-    SystemDisk.Description  string
+    SystemDisk_Category     string  `ArgName:"SystemDisk.Category"`
+    SystemDisk_DiskName     string  `ArgName:"SystemDisk.DiskName"`
+    SystemDisk_Description  string  `ArgName:"SystemDisk.Description"`
 
     DataDisk_1_Size         int     `ArgName:"DataDisk.1.Size"`
     DataDisk_1_Category     string  `ArgName:"DataDisk.1.Category"`

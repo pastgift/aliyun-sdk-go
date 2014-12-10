@@ -41,16 +41,16 @@ type DescribeZonesArgs struct {
 }
 
 type AvailableResourceCreationType struct {
-    ResourceTypes               []string                    `json:"ResourceTypes"`
+    ResourceTypes               []string                        `json:"ResourceTypes"`
 }
 
 type AvailableDiskCategoriesType struct {
-    DiskCategories              []string                    `json:"DiskCategories"`
+    DiskCategories              []string                        `json:"DiskCategories"`
 }
 
 type ZoneType struct {
-    ZoneId                      string                      `json:"ZoneId"`
-    LocalName                   string                      `json:"LocalName"`
+    ZoneId                      string                          `json:"ZoneId"`
+    LocalName                   string                          `json:"LocalName"`
     AvailableResourceCreation   AvailableResourceCreationType   `json:"AvailableResourceCreation"`
     AvailableDiskCategories     AvailableDiskCategoriesType     `json:"AvailableDiskCategories"`
 }
@@ -62,7 +62,7 @@ type ZoneType_Array struct {
 type DescribeZonesResult struct {
     GlobalResult
 
-    Zones                       ZoneType_Array                  `json:"Zones"`
+    Zones                       ZoneType_Array                 `json:"Zones"`
 }
 
 func (self *Client) DescribeZones(args *DescribeZonesArgs) (result *DescribeZonesResult, errorResult *ErrorResult) {

@@ -42,7 +42,7 @@ type ImageType struct {
     CreationTime        string                      `json:"CreationTime"`
 }
 
-type ImageType_Array {
+type ImageType_Array struct {
     Images              []ImageType                 `json:"Images"`
 }
 

@@ -35,8 +35,10 @@ func (self *Client) CallAPI(action string, args interface{}, res interface{}) (e
         log.Panicln(MSG_REQ_ERR)
     }
 
-    log.Println("Status Code:", resp.StatusCode)
-    log.Println("Received:\n\t", resp.String())
+    shellColor  := "\033[0;33m"
+    shellNormal := "\033[m"
+    log.Printf("%s[API RAW RESPONSE] Status Code: %d %s", shellColor, resp.StatusCode, shellNormal)
+    log.Printf("%s[API RAW RESPONSE] Received:\n\t%s %s", shellColor, resp.String(), shellNormal)
 
     // Struct of Returning ErrorData is fixed.
     if resp.StatusCode >= 400 {
