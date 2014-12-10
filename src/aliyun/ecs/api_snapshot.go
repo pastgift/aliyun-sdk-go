@@ -7,12 +7,16 @@ import (
 
 // Create `Snapshot`
 type CreateSnapshotArgs struct {
-
+    DiskId          string
+    SnapshotName    string
+    Description     string
+    ClientToken     string
 }
 
 type CreateSnapshotResult struct {
     GlobalResult
-    // TODO
+
+    SnapshotId      string  `json:"SnapshotId"`
 }
 
 func (self *Client) CreateSnapshot(args *CreateSnapshotArgs) (result *CreateSnapshotResult, errorResult *ErrorResult) {
@@ -26,12 +30,11 @@ func (self *Client) CreateSnapshot(args *CreateSnapshotArgs) (result *CreateSnap
 
 // Delete `Snapshot`
 type DeleteSnapshotArgs struct {
-
+    SnapshotId  string
 }
 
 type DeleteSnapshotResult struct {
     GlobalResult
-
 }
 
 func (self *Client) DeleteSnapshot(args *DeleteSnapshotArgs) (result *DeleteSnapshotResult, errorResult *ErrorResult) {
@@ -45,12 +48,38 @@ func (self *Client) DeleteSnapshot(args *DeleteSnapshotArgs) (result *DeleteSnap
 
 // Describe `Snapshot`s
 type DescribeSnapshotsArgs struct {
+    RegionId    string
+    InstanceId  string
+    DiskId      string
+    SnapshotIds string
+    PageNumber  int
+    PageSize    int
+}
 
+type SnapshotResourceST struct {
+    CreationTime        string                  `json:"CreationTime"`
+    Description         string                  `json:"Description"`
+    ProductCode         string                  `json:"ProductCode"`
+    Progress            string                  `json:"Progress"`
+    SnapshotId          string                  `json:"SnapshotId"`
+    SnapshotName        string                  `json:"SnapshotName"`
+    SourceDiskId        string                  `json:"SourceDiskId"`
+    SourceDiskSize      string                  `json:"SourceDiskSize"`
+    SourceDiskType      string                  `json:"SourceDiskType"`
+}
+
+type SnapshotsST struct {
+    SnapshotResource    []SnapshotResourceST    `json:"SnapshotResource"`
 }
 
 type DescribeSnapshotsResult struct {
     GlobalResult
-    // TODO
+
+    RegionId            string                  `json:"RegionId"`
+    TotalCount          int                     `json:"TotalCount"`
+    PageNumber          int                     `json:"PageNumber"`
+    PageSize            int                     `json:"PageSize"`
+    Snapshots           SnapshotsST             `json:"Snapshots"`
 }
 
 func (self *Client) DescribeSnapshots(args *DescribeSnapshotsArgs) (result *DescribeSnapshotsResult, errorResult *ErrorResult) {
@@ -64,12 +93,18 @@ func (self *Client) DescribeSnapshots(args *DescribeSnapshotsArgs) (result *Desc
 
 // Modify `AutoSnapshot` Policy
 type ModifyAutoSnapshotPolicyArgs struct {
-
+    SystemDiskPolicyEnabled             string
+    SystemDiskPolicyTimePeriod          int
+    SystemDiskPolicyRetentionDays       int
+    SystemDiskPolicyRetentionLastWeek   string
+    DataDiskPolicyEnabled               string
+    DataDiskPolicyTimePeriod            int
+    DataDiskPolicyRetentionDays         int
+    DataDiskPolicyRetentionLastWeek     string
 }
 
 type ModifyAutoSnapshotPolicyResult struct {
     GlobalResult
-    // TODO
 }
 
 func (self *Client) ModifyAutoSnapshotPolicy(args *ModifyAutoSnapshotPolicyArgs) (result *ModifyAutoSnapshotPolicyResult, errorResult *ErrorResult) {
@@ -83,12 +118,30 @@ func (self *Client) ModifyAutoSnapshotPolicy(args *ModifyAutoSnapshotPolicyArgs)
 
 // Describe `AutoSnapshot` Policy
 type DescribeAutoSnapshotPolicyArgs struct {
+    // NO ARGUMENT NEEDED
+}
 
+type AutoSnapshotExcutionStatusST struct {
+    DataDiskExcutionStatus              string                          `json:"DataDiskExcutionStatus"`
+    SystemDiskExcutionStatus            string                          `json:"SystemDiskExcutionStatus"`
+}
+
+type AutoSnapshotPolicyST struct {
+    DataDiskPolicyEnabled               string                          `json:"DataDiskPolicyEnabled"`
+    DataDiskPolicyRetentionDays         string                          `json:"DataDiskPolicyRetentionDays"`
+    DataDiskPolicyRetentionLastWeek     string                          `json:"DataDiskPolicyRetentionLastWeek"`
+    DataDiskPolicyTimePeriod            string                          `json:"DataDiskPolicyTimePeriod"`
+    SystemDiskPolicyEnabled             string                          `json:"SystemDiskPolicyEnabled"`
+    SystemDiskPolicyRetentionDays       string                          `json:"SystemDiskPolicyRetentionDays"`
+    SystemDiskPolicyRetentionLastWeek   string                          `json:"SystemDiskPolicyRetentionLastWeek"`
+    SystemDiskPolicyTimePeriod          string                          `json:"SystemDiskPolicyTimePeriod"`
 }
 
 type DescribeAutoSnapshotPolicyResult struct {
     GlobalResult
-    // TODO
+
+    AutoSnapshotPolicy                  AutoSnapshotPolicyST            `json:"AutoSnapshotPolicy"`
+    AutoSnapshotExcutionStatus          AutoSnapshotExcutionStatusST    `json:"AutoSnapshotExcutionStatus"`
 }
 
 func (self *Client) DescribeAutoSnapshotPolicy(args *DescribeAutoSnapshotPolicyArgs) (result *DescribeAutoSnapshotPolicyResult, errorResult *ErrorResult) {

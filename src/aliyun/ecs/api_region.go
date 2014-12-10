@@ -7,6 +7,7 @@ import (
 
 // Get `Region` list
 type DescribeRegionsArgs struct {
+    // NO ARGUMENT NEEDED
 }
 
 type RegionST struct {

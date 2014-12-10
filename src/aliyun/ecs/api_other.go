@@ -7,7 +7,7 @@ import (
 
 // Describe `Instance` Types
 type DescribeInstanceTypesArgs struct {
-
+    // NO ARGUMENT NEEDED
 }
 
 type InstanceTypeST struct {
