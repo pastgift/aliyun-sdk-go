@@ -53,10 +53,6 @@ func main() {
 	_, errRes = ecsClient.DescribeImages(
 		&ecs.DescribeImagesArgs{
 			RegionId: "cn-hangzhou",
-//			PageNumber:"1",
-//			PageSize:"50",
-//			ImageId : "m-23sh9otvi",
-			ImageId : "m-237pyempt",
 		})
 	if errRes == nil {
 		log.Println("Images Found:")
