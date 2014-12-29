@@ -2,49 +2,48 @@
 
 package ecs
 
-import (
-)
+import ()
 
 // Describe `Instance` `Monitor` Data
 type DescribeInstanceMonitorDataArgs struct {
-    InstanceId  string
-    StartTime   string
-    EndTime     string
-    Period      string
+	InstanceId string
+	StartTime  string
+	EndTime    string
+	Period     string
 }
 
 type InstanceMonitorDataType struct {
-    InstanceId          string                          `json:"InstanceId"`
-    CPU                 int                             `json:"CPU"`
-    Memory              int                             `json:"Memory"`
-    IntranetRX          int                             `json:"IntranetRX"`
-    IntranetTX          int                             `json:"IntranetTX"`
-    IntranetFlow        int                             `json:"IntranetFlow"`
-    IntranetBandwidth   int                             `json:"IntranetBandwidth"`
-    InternetRX          int                             `json:"InternetRX"`
-    InternetTX          int                             `json:"InternetTX"`
-    InternetFlow        int                             `json:"InternetFlow"`
-    InternetBandwidth   int                             `json:"InternetBandwidth"`
-    IOPSRead            int                             `json:"IOPSRead"`
-    IOPSWrite           int                             `json:"IOPSWrite"`
-    BPSRead             int                             `json:"BPSRead"`
-    BPSWrite            int                             `json:"BPSWrite"`
-    TimeStamp           string                          `json:"TimeStamp"`
+	InstanceId        string `json:"InstanceId"`
+	CPU               int    `json:"CPU"`
+	Memory            int    `json:"Memory"`
+	IntranetRX        int    `json:"IntranetRX"`
+	IntranetTX        int    `json:"IntranetTX"`
+	IntranetFlow      int    `json:"IntranetFlow"`
+	IntranetBandwidth int    `json:"IntranetBandwidth"`
+	InternetRX        int    `json:"InternetRX"`
+	InternetTX        int    `json:"InternetTX"`
+	InternetFlow      int    `json:"InternetFlow"`
+	InternetBandwidth int    `json:"InternetBandwidth"`
+	IOPSRead          int    `json:"IOPSRead"`
+	IOPSWrite         int    `json:"IOPSWrite"`
+	BPSRead           int    `json:"BPSRead"`
+	BPSWrite          int    `json:"BPSWrite"`
+	TimeStamp         string `json:"TimeStamp"`
 }
 
 type InstanceMonitorDataType_Array struct {
-    InstanceMonitorData []InstanceMonitorDataType       `json:"InstanceMonitorData"`
+	InstanceMonitorData []InstanceMonitorDataType `json:"InstanceMonitorData"`
 }
 
 type DescribeInstanceMonitorDataResult struct {
-    GlobalResult
+	GlobalResult
 
-    MonitorData         InstanceMonitorDataType_Array   `json:"MonitorData"`
+	MonitorData InstanceMonitorDataType_Array `json:"MonitorData"`
 }
 
 func (self *Client) DescribeInstanceMonitorData(args *DescribeInstanceMonitorDataArgs) (result *DescribeInstanceMonitorDataResult, errorResult *ErrorResult) {
-    res := new(DescribeInstanceMonitorDataResult)
-    errRes := self.CallAPI("DescribeInstanceMonitorData", args, res)
+	res := new(DescribeInstanceMonitorDataResult)
+	errRes := self.CallAPI("DescribeInstanceMonitorData", args, res)
 
-    return res, errRes
+	return res, errRes
 }

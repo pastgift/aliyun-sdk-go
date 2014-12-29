@@ -2,261 +2,260 @@
 
 package ecs
 
-import (
-)
+import ()
 
 // Create `Disk`
 type CreateDiskArgs struct {
-    RegionId    string
-    ZoneId      string
-    DiskName    string
-    Description string
-    Size        int
-    SnapshotId  string
-    ClientToken string
+	RegionId    string
+	ZoneId      string
+	DiskName    string
+	Description string
+	Size        int
+	SnapshotId  string
+	ClientToken string
 }
 
 type CreateDiskResult struct {
-    GlobalResult
+	GlobalResult
 
-    DiskId      string `json:"DiskId"`
+	DiskId string `json:"DiskId"`
 }
 
 func (self *Client) CreateDisk(args *CreateDiskArgs) (result *CreateDiskResult, errorResult *ErrorResult) {
-    res := new(CreateDiskResult)
-    errRes := self.CallAPI("CreateDisk", args, res)
+	res := new(CreateDiskResult)
+	errRes := self.CallAPI("CreateDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Describe `Disk`s
 const (
-    DISK_TYPE_ALL                   = "all"
-    DISK_TYPE_SYSTEM                = "system"
-    DISK_TYPE_DATA                  = "data"
+	DISK_TYPE_ALL    = "all"
+	DISK_TYPE_SYSTEM = "system"
+	DISK_TYPE_DATA   = "data"
 
-    DISK_CAT_ALL                    = "all"
-    DISK_CAT_CLOUD                  = "cloud"
-    DISK_CAT_EPHEMERAL              = "ephemeral"
+	DISK_CAT_ALL       = "all"
+	DISK_CAT_CLOUD     = "cloud"
+	DISK_CAT_EPHEMERAL = "ephemeral"
 
-    DISK_STATUS_IN_USE              = "In_use"
-    DISK_STATUS_AVAILABLE           = "Available"
-    DISK_STATUS_ATTACHING           = "Attaching"
-    DISK_STATUS_DETACHING           = "Detaching"
-    DISK_STATUS_CREATING            = "Creating"
-    DISK_STATUS_REINITING           = "ReIniting"
-    DISK_STATUS_ALL                 = "All"
+	DISK_STATUS_IN_USE    = "In_use"
+	DISK_STATUS_AVAILABLE = "Available"
+	DISK_STATUS_ATTACHING = "Attaching"
+	DISK_STATUS_DETACHING = "Detaching"
+	DISK_STATUS_CREATING  = "Creating"
+	DISK_STATUS_REINITING = "ReIniting"
+	DISK_STATUS_ALL       = "All"
 
-    DISK_PORTABLE_TRUE              = "True"
-    DISK_PORTABLE_FALSE             = "False"
+	DISK_PORTABLE_TRUE  = "True"
+	DISK_PORTABLE_FALSE = "False"
 
-    DISK_DELETE_WITH_INSTANCE_TRUE  = "True"
-    DISK_DELETE_WITH_INSTANCE_FALSE = "False"
+	DISK_DELETE_WITH_INSTANCE_TRUE  = "True"
+	DISK_DELETE_WITH_INSTANCE_FALSE = "False"
 
-    DISK_DELETE_AUTO_SNAPSHOT_TRUE  = "True"
-    DISK_DELETE_AUTO_SNAPSHOT_FALSE = "False"
+	DISK_DELETE_AUTO_SNAPSHOT_TRUE  = "True"
+	DISK_DELETE_AUTO_SNAPSHOT_FALSE = "False"
 )
 
 type DescribeDisksArgs struct {
-    RegionId            string
-    ZoneId              string
-    DiskIds             string
-    InstanceId          string
-    DiskType            string
-    Category            string
-    Status              string
-    SnapshotId          string
-    Portable            string
-    DeleteWithInstance  string
-    DeleteAutoSnapshot  string
-    PageNumber          int
-    PageSize            int
+	RegionId           string
+	ZoneId             string
+	DiskIds            string
+	InstanceId         string
+	DiskType           string
+	Category           string
+	Status             string
+	SnapshotId         string
+	Portable           string
+	DeleteWithInstance string
+	DeleteAutoSnapshot string
+	PageNumber         int
+	PageSize           int
 }
 
 //Note: Already defined in `api_instance.go`
 //type OperationLocksType struct {...}
 
 type DiskItemType struct {
-    DiskId              string              `json:"DiskId"`
-    RegionId            string              `json:"RegionId"`
-    ZoneId              string              `json:"ZoneId"`
-    DiskName            string              `json:"DiskName"`
-    Description         string              `json:"Description"`
-    Type                string              `json:"Type"`
-    Category            string              `json:"Category"`
-    Size                int                 `json:"Size"`
-    ImageId             string              `json:"ImageId"`
-    SourceSnapshotId    string              `json:"SourceSnapshotId"`
-    ProductCode         string              `json:"ProductCode"`
-    Portable            string              `json:"Portable"`
-    Status              string              `json:"Status"`
-    OperationLocks      OperationLocksType  `json:"OperationLocks"`
-    InstanceId          string              `json:"InstanceId"`
-    Device              string              `json:"Device"`
-    DeleteWithInstance  string              `json:"DeleteWithInstance"`
-    DeleteAutoSnapshot  string              `json:"DeleteAutoSnapshot"`
-    CreationTime        string              `json:"CreationTime"`
-    AttachedTime        string              `json:"AttachedTime"`
-    DetachedTime        string              `json:"DetachedTime"`   
+	DiskId             string             `json:"DiskId"`
+	RegionId           string             `json:"RegionId"`
+	ZoneId             string             `json:"ZoneId"`
+	DiskName           string             `json:"DiskName"`
+	Description        string             `json:"Description"`
+	Type               string             `json:"Type"`
+	Category           string             `json:"Category"`
+	Size               int                `json:"Size"`
+	ImageId            string             `json:"ImageId"`
+	SourceSnapshotId   string             `json:"SourceSnapshotId"`
+	ProductCode        string             `json:"ProductCode"`
+	Portable           string             `json:"Portable"`
+	Status             string             `json:"Status"`
+	OperationLocks     OperationLocksType `json:"OperationLocks"`
+	InstanceId         string             `json:"InstanceId"`
+	Device             string             `json:"Device"`
+	DeleteWithInstance string             `json:"DeleteWithInstance"`
+	DeleteAutoSnapshot string             `json:"DeleteAutoSnapshot"`
+	CreationTime       string             `json:"CreationTime"`
+	AttachedTime       string             `json:"AttachedTime"`
+	DetachedTime       string             `json:"DetachedTime"`
 }
 
 type DiskSetType struct {
-    Disk                []DiskItemType      `json:"Disk"`
+	Disk []DiskItemType `json:"Disk"`
 }
 
 type DescribeDisksResult struct {
-    GlobalResult
+	GlobalResult
 
-    RegionId            string              `json:"RegionId"`
-    TotalCount          int                 `json:"TotalCount"`
-    PageNumber          int                 `json:"PageNumber"`
-    PageSize            int                 `json:"PageSize"`
-    Disks               DiskSetType         `json:"Disks"`
+	RegionId   string      `json:"RegionId"`
+	TotalCount int         `json:"TotalCount"`
+	PageNumber int         `json:"PageNumber"`
+	PageSize   int         `json:"PageSize"`
+	Disks      DiskSetType `json:"Disks"`
 }
 
 func (self *Client) DescribeDisks(args *DescribeDisksArgs) (result *DescribeDisksResult, errorResult *ErrorResult) {
-    res := new(DescribeDisksResult)
-    errRes := self.CallAPI("DescribeDisks", args, res)
+	res := new(DescribeDisksResult)
+	errRes := self.CallAPI("DescribeDisks", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Attach `Disk`
 type AttachDiskArgs struct {
-    InstanceId          string
-    DiskId              string
-    Device              string
-    DeleteWithInstance  string
+	InstanceId         string
+	DiskId             string
+	Device             string
+	DeleteWithInstance string
 }
 
 type AttachDiskResult struct {
-    GlobalResult
+	GlobalResult
 }
 
 func (self *Client) AttachDisk(args *AttachDiskArgs) (result *AttachDiskResult, errorResult *ErrorResult) {
-    res := new(AttachDiskResult)
-    errRes := self.CallAPI("AttachDisk", args, res)
+	res := new(AttachDiskResult)
+	errRes := self.CallAPI("AttachDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Detach `Disk`
 type DetachDiskArgs struct {
-    InstanceId  string
-    DiskId      string
+	InstanceId string
+	DiskId     string
 }
 
 type DetachDiskResult struct {
-    GlobalResult
+	GlobalResult
 }
 
 func (self *Client) DetachDisk(args *DetachDiskArgs) (result *DetachDiskResult, errorResult *ErrorResult) {
-    res := new(DetachDiskResult)
-    errRes := self.CallAPI("DetachDisk", args, res)
+	res := new(DetachDiskResult)
+	errRes := self.CallAPI("DetachDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Modify `Disk` Attribute
 type ModifyDiskAttributeArgs struct {
-    DiskId              string
-    DiskName            string
-    Description         string
-    DeleteWithInstance  string
+	DiskId             string
+	DiskName           string
+	Description        string
+	DeleteWithInstance string
 }
 
 type ModifyDiskAttributeResult struct {
-    GlobalResult
+	GlobalResult
 }
 
 func (self *Client) ModifyDiskAttribute(args *ModifyDiskAttributeArgs) (result *ModifyDiskAttributeResult, errorResult *ErrorResult) {
-    res := new(ModifyDiskAttributeResult)
-    errRes := self.CallAPI("ModifyDiskAttribute", args, res)
+	res := new(ModifyDiskAttributeResult)
+	errRes := self.CallAPI("ModifyDiskAttribute", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Delete `Disk`
 type DeleteDiskArgs struct {
-    DiskId  string
+	DiskId string
 }
 
 type DeleteDiskResult struct {
-    GlobalResult
+	GlobalResult
 }
 
 func (self *Client) DeleteDisk(args *DeleteDiskArgs) (result *DeleteDiskResult, errorResult *ErrorResult) {
-    res := new(DeleteDiskResult)
-    errRes := self.CallAPI("DeleteDisk", args, res)
+	res := new(DeleteDiskResult)
+	errRes := self.CallAPI("DeleteDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // ReInit `Disk`
 type ReInitDiskArgs struct {
-    DiskId  string
+	DiskId string
 }
 
 type ReInitDiskResult struct {
-    GlobalResult
+	GlobalResult
 }
 
 func (self *Client) ReInitDisk(args *ReInitDiskArgs) (result *ReInitDiskResult, errorResult *ErrorResult) {
-    res := new(ReInitDiskResult)
-    errRes := self.CallAPI("ReInitDisk", args, res)
+	res := new(ReInitDiskResult)
+	errRes := self.CallAPI("ReInitDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Reset `Disk`
 type ResetDiskArgs struct {
-    DiskId      string
-    SnapshotId  string
+	DiskId     string
+	SnapshotId string
 }
 
 type ResetDiskResult struct {
-    GlobalResult
+	GlobalResult
 }
 
 func (self *Client) ResetDisk(args *ResetDiskArgs) (result *ResetDiskResult, errorResult *ErrorResult) {
-    res := new(ResetDiskResult)
-    errRes := self.CallAPI("ResetDisk", args, res)
+	res := new(ResetDiskResult)
+	errRes := self.CallAPI("ResetDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
 
 /**************************************************/
 
 // Replace `SystemDisk`
 type ReplaceSystemDiskArgs struct {
-    InstanceId  string
-    ImageId     string
-    ClientToken string
+	InstanceId  string
+	ImageId     string
+	ClientToken string
 }
 
 type ReplaceSystemDiskResult struct {
-    GlobalResult
+	GlobalResult
 
-    DiskId      string `json:"DiskId"`
+	DiskId string `json:"DiskId"`
 }
 
 func (self *Client) ReplaceSystemDisk(args *ReplaceSystemDiskArgs) (result *ReplaceSystemDiskResult, errorResult *ErrorResult) {
-    res := new(ReplaceSystemDiskResult)
-    errRes := self.CallAPI("ReplaceSystemDisk", args, res)
+	res := new(ReplaceSystemDiskResult)
+	errRes := self.CallAPI("ReplaceSystemDisk", args, res)
 
-    return res, errRes
+	return res, errRes
 }
