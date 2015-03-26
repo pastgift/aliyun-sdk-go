@@ -20,7 +20,8 @@ func main() {
 		return
 	}
 
-	accessKey := strings.Split(string(f), "\n")
+	data := string(f)
+	accessKey := strings.Split(data, "\n")
 	accessKeyId := accessKey[0]
 	accessKeySecret := accessKey[1]
 
